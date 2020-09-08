@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/slider_controller.dart';
@@ -90,7 +91,16 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      FirebaseFirestore.instance
+                          .collection('chats/LISIQ1OlXtbMtY5y7gyY/messages')
+                          .snapshots()
+                          .listen(
+                        (event) {
+                          print(event.docs[0].data()['text']);
+                        },
+                      );
+                    },
                     child: Text(
                       "Getting Started",
                       style: TextStyle(fontSize: ScreenUtil().setSp(16)),
