@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ExpensesApp/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,14 +93,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                 children: [
                   FlatButton(
                     onPressed: () {
-                      FirebaseFirestore.instance
-                          .collection('chats/LISIQ1OlXtbMtY5y7gyY/messages')
-                          .snapshots()
-                          .listen(
-                        (event) {
-                          print(event.docs[0].data()['text']);
-                        },
-                      );
+                      Navigator.pushNamed(context, LoginScreen.routeName);
                     },
                     child: Text(
                       "Getting Started",

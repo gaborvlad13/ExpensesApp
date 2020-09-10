@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Palette {
-  static const facebookColor = Color(0x4267B2);
-  static const googleColor = Color(0xDB4437);
+  static const facebookColor = Color.fromRGBO(66, 103, 178, 1);
+  static const googleColor = Color.fromRGBO(219, 68, 55, 1);
 }

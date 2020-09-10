@@ -8,16 +8,26 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: DevicePreview.of(context).locale, // <--- /!\ Add the locale
+      builder: DevicePreview.appBuilder, // <-
       title: 'Flutter App',
       debugShowCheckedModeBanner: false,
       home: GetStartedScreen(),
+      routes: {
+        LoginScreen.routeName: (context) => LoginScreen(),
+      },
     );
   }
 }
