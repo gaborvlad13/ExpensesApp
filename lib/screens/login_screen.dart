@@ -1,94 +1,127 @@
+import 'package:ExpensesApp/config/palette.dart';
+import 'package:ExpensesApp/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/login_screen/account_form.dart';
-import '../widgets/login_screen/login_button.dart';
-import '../widgets/login_screen/login_google_button.dart';
 import '../widgets/login_screen/or_divider.dart';
 import '../widgets/login_screen/social_icon.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login_screen';
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  final AuthService _auth = AuthService();
+
+  Future<void> _submitAuthForm(String email, String password) async {
+    var authResult = await _auth.registerWithEmailAndPassword(email, password);
+    print(authResult);
+  }
+
   @override
   Widget build(BuildContext context) {
-    double leftCornerRadius = MediaQuery.of(context).size.height * 0.5;
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: ScreenUtil().setHeight(50),
-          left: ScreenUtil().setWidth(20),
-          right: ScreenUtil().setWidth(20),
-          bottom: ScreenUtil().setHeight(10),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'Sign In',
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(18),
+          ),
         ),
-        child: Column(
-          children: [
-            Container(
-              width: ScreenUtil().setWidth(200),
-              height: ScreenUtil().setHeight(200),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/image1.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setHeight(30),
-            ),
-            AccountForm(_formKey),
-            SizedBox(
-              height: ScreenUtil().setHeight(10),
-            ),
-            LoginButton(),
-            SizedBox(
-              height: ScreenUtil().setHeight(30),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: ScreenUtil().setWidth(20),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                Text(
-                  'New to Thisapp?',
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(16),
-                  ),
-                ),
                 SizedBox(
-                  width: ScreenUtil().setWidth(4),
+                  height: ScreenUtil().setHeight(40),
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: Text(
-                    'Register',
-                    style: TextStyle(
-                      color: Colors.teal,
-                      decoration: TextDecoration.underline,
-                      fontSize: ScreenUtil().setSp(16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Welcome to Thissapp",
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(32),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: ScreenUtil().setHeight(20),
-            ),
-            OrDivider(),
-            SizedBox(
-              height: ScreenUtil().setHeight(20),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SocialIcon('google'),
-                SizedBox(
-                  width: ScreenUtil().setWidth(30),
+                    Text(
+                      ".",
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(32),
+                        color: kPrimaryColor,
+                      ),
+                    ),
+                  ],
                 ),
-                SocialIcon('facebook'),
+                SizedBox(
+                  height: ScreenUtil().setHeight(4),
+                ),
+                Text(
+                  "Sign in with your email and password\nor continue with social media",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(15),
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(
+                  height: ScreenUtil().setHeight(90),
+                ),
+                AccountForm(
+                  _submitAuthForm,
+                ),
+                SizedBox(
+                  height: ScreenUtil().setHeight(35),
+                ),
+                OrDivider(),
+                SizedBox(
+                  height: ScreenUtil().setHeight(25),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SocialIcon('google'),
+                    SizedBox(
+                      width: ScreenUtil().setWidth(30),
+                    ),
+                    SocialIcon('facebook'),
+                  ],
+                ),
+                SizedBox(
+                  height: ScreenUtil().setHeight(20),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'New to Thisapp?',
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(16),
+                      ),
+                    ),
+                    SizedBox(
+                      width: ScreenUtil().setWidth(4),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Text(
+                        'Register',
+                        style: TextStyle(
+                          color: kPrimaryColor,
+                          decoration: TextDecoration.underline,
+                          fontSize: ScreenUtil().setSp(16),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

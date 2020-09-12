@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ExpensesApp/screens/login_screen.dart';
+import 'package:ExpensesApp/widgets/default_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,24 +92,12 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  FlatButton(
-                    onPressed: () {
+                  DefaultButton(
+                    press: () {
                       Navigator.pushNamed(context, LoginScreen.routeName);
                     },
-                    child: Text(
-                      "Getting Started",
-                      style: TextStyle(fontSize: ScreenUtil().setSp(16)),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    color: Colors.teal,
-                    textColor: Colors.white,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: ScreenUtil().setWidth(15),
-                      vertical: ScreenUtil().setHeight(15),
-                    ),
-                  )
+                    text: 'Getting started',
+                  ),
                 ],
               ),
             ),

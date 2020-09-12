@@ -1,121 +1,126 @@
+import 'package:ExpensesApp/widgets/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum AuthMode { Signup, Login }
 
 class AccountForm extends StatefulWidget {
-  final _formKey;
-  AccountForm(this._formKey);
+  final Future<void> Function(String email, String password) _submitForm;
+  AccountForm(
+    this._submitForm,
+  );
   @override
   _AccountFormState createState() => _AccountFormState();
 }
 
 class _AccountFormState extends State<AccountForm> {
-  AuthMode _authMode = AuthMode.Login;
+  final GlobalKey<FormState> _formKey = GlobalKey();
   var _isLoading = false;
+  var _email = '';
+  var _password = '';
 
-  void _switchAuthMode() {
-    if (_authMode == AuthMode.Login) {
-      setState(() {
-        _authMode = AuthMode.Signup;
-      });
-    } else {
-      setState(() {
-        _authMode = AuthMode.Login;
-      });
+  String _validatePassword(String value) {
+    Pattern pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$';
+    RegExp regex = new RegExp(pattern);
+    if (value.length < 8) return "Password must contain at least 8 characters";
+    if (!regex.hasMatch(value))
+      return 'Password must contain one uppercase letter,\none lowercase letter and a number';
+    else
+      return null;
+  }
+
+  String _validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Enter valid Email';
+    else
+      return null;
+  }
+
+  Future<void> _trySubmit() async {
+    print('intra');
+    final isValid = _formKey.currentState.validate();
+    FocusScope.of(context).unfocus();
+    if (isValid) {
+      print('intra aici');
+      _formKey.currentState.save();
+      print(_email);
+      await widget._submitForm(_email, _password);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: _authMode == AuthMode.Signup
-          ? ScreenUtil().setHeight(320)
-          : ScreenUtil().setHeight(170),
-      constraints: BoxConstraints(
-        minHeight: _authMode == AuthMode.Signup
-            ? ScreenUtil().setHeight(320)
-            : ScreenUtil().setHeight(170),
-      ),
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(16),
-        vertical: ScreenUtil().setHeight(16),
-      ),
-      child: Form(
-        key: widget._formKey,
-        child: Column(
-          children: [
-            _buildEmailTextForm(),
-            SizedBox(
-              height: ScreenUtil().setHeight(15),
-            ),
-            _buildPasswordTextForm(),
-          ],
-        ),
+    print("build account form called");
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          buildEmailFormField(),
+          SizedBox(
+            height: ScreenUtil().setHeight(15),
+          ),
+          buildPasswordFormField(),
+          SizedBox(
+            height: ScreenUtil().setHeight(30),
+          ),
+          DefaultButton(
+            press: _trySubmit,
+            text: 'Continue with Email',
+          ),
+        ],
       ),
     );
   }
-}
 
-TextFormField _buildEmailTextForm() {
-  return TextFormField(
-    keyboardType: TextInputType.emailAddress,
-    decoration: InputDecoration(
-      floatingLabelBehavior: FloatingLabelBehavior.always,
-      prefixIcon: Padding(
-        padding: EdgeInsets.only(
-          right: ScreenUtil().setWidth(10),
-          left: ScreenUtil().setWidth(8),
-          bottom: ScreenUtil().setHeight(2),
-          top: ScreenUtil().setHeight(1),
+  TextFormField buildPasswordFormField() {
+    return TextFormField(
+      onSaved: (newValue) => _password = newValue,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: ScreenUtil().setWidth(42),
+          vertical: ScreenUtil().setHeight(20),
         ),
-        child: Icon(
-          Icons.email,
-          size: ScreenUtil().setSp(25),
+        labelText: 'Password',
+        labelStyle: TextStyle(
+          fontSize: ScreenUtil().setSp(16),
         ),
+        hintText: 'Enter your password',
+        hintStyle: TextStyle(
+          fontSize: ScreenUtil().setSp(16),
+        ),
+        suffixIcon: Icon(
+          Icons.visibility_off,
+        ),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
-      hintText: 'Email',
-      //labelText: 'Email',
-      hintStyle: TextStyle(
-        fontSize: ScreenUtil().setSp(18),
-      ),
-      focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.teal),
-      ),
-    ),
-  );
-}
+      obscureText: true,
+      validator: _validatePassword,
+    );
+  }
 
-TextFormField _buildPasswordTextForm() {
-  return TextFormField(
-    decoration: InputDecoration(
-      floatingLabelBehavior: FloatingLabelBehavior.always,
-      prefixIcon: Padding(
-        padding: EdgeInsets.only(
-          right: ScreenUtil().setWidth(10),
-          left: ScreenUtil().setWidth(8),
-          bottom: ScreenUtil().setHeight(2),
-          top: ScreenUtil().setHeight(1),
+  TextFormField buildEmailFormField() {
+    return TextFormField(
+      onSaved: (newValue) => _email = newValue,
+      keyboardType: TextInputType.emailAddress,
+      validator: _validateEmail,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: ScreenUtil().setWidth(42),
+          vertical: ScreenUtil().setHeight(20),
         ),
-        child: Icon(
-          Icons.lock,
-          size: ScreenUtil().setSp(25),
+        labelText: 'Email',
+        labelStyle: TextStyle(
+          fontSize: ScreenUtil().setSp(16),
         ),
+        hintText: 'Enter your email',
+        hintStyle: TextStyle(
+          fontSize: ScreenUtil().setSp(16),
+        ),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
-      suffixIcon: Icon(
-        Icons.visibility,
-        size: ScreenUtil().setSp(25),
-      ),
-      hintText: 'Password',
-      //labelText: 'Password',
-      hintStyle: TextStyle(
-        fontSize: ScreenUtil().setSp(18),
-      ),
-      focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.teal),
-      ),
-    ),
-    obscureText: true,
-  );
+    );
+  }
 }

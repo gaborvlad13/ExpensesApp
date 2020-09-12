@@ -1,3 +1,4 @@
+import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/controllers/slider_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
@@ -31,7 +32,7 @@ class SlideItem extends StatelessWidget {
           sliderController.sliders[index].title,
           style: TextStyle(
             fontSize: ScreenUtil().setSp(22),
-            color: Colors.teal,
+            color: kPrimaryColor,
           ),
         ),
         SizedBox(

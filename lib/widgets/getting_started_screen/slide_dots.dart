@@ -1,3 +1,4 @@
+import 'package:ExpensesApp/config/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 
@@ -19,7 +20,7 @@ class SlideDots extends StatelessWidget {
         borderRadius: BorderRadius.all(
           Radius.circular(12),
         ),
-        color: _isActive ? Colors.teal : Colors.grey,
+        color: _isActive ? kPrimaryColor : Colors.grey,
       ),
     );
   }

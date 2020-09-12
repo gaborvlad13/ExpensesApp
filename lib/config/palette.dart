@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Palette {
-  static const facebookColor = Color.fromRGBO(66, 103, 178, 1);
-  static const googleColor = Color.fromRGBO(219, 68, 55, 1);
-}
+const kPrimaryColor = Colors.teal;
+const kScaffoldBackgroundColor = Colors.white;
+const kAccentColor = Color.fromRGBO(255, 131, 98, 1);
+const kTextColor = Colors.black;
+const kGoogleColor = Color.fromRGBO(219, 68, 55, 1);
+const kFacebookColor = Color.fromRGBO(66, 103, 178, 1);

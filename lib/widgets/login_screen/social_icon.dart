@@ -16,26 +16,26 @@ class SocialIcon extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             width: ScreenUtil().setWidth(2),
-            color: Colors.teal,
+            color: kPrimaryColor,
           ),
           shape: BoxShape.circle,
         ),
         child: _buildIcon(_social));
   }
-}
-
-FaIcon _buildIcon(_social) {
-  if (_social == 'google')
-    return FaIcon(
-      FontAwesomeIcons.google,
-      color: Palette.googleColor,
-      size: ScreenUtil().setSp(20),
-    );
-  else if (_social == 'facebook')
-    return FaIcon(
-      FontAwesomeIcons.facebook,
-      color: Palette.facebookColor,
-      size: ScreenUtil().setSp(20),
-    );
-  return FaIcon(FontAwesomeIcons.eraser);
+  
+  FaIcon _buildIcon(_social) {
+    if (_social == 'google')
+      return FaIcon(
+        FontAwesomeIcons.google,
+        color: kGoogleColor,
+        size: ScreenUtil().setSp(20),
+      );
+    else if (_social == 'facebook')
+      return FaIcon(
+        FontAwesomeIcons.facebook,
+        color: kFacebookColor,
+        size: ScreenUtil().setSp(20),
+      );
+    return FaIcon(FontAwesomeIcons.eraser);
+  }
 }
