@@ -1,18 +1,44 @@
 import 'package:ExpensesApp/config/palette.dart';
+import 'package:ExpensesApp/screens/main_screen.dart';
 import 'package:ExpensesApp/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../widgets/login_screen/account_form.dart';
 import '../widgets/login_screen/or_divider.dart';
 import '../widgets/login_screen/social_icon.dart';
+import '../widgets/login_screen/enums.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = '/login_screen';
-  final AuthService _auth = AuthService();
 
-  Future<void> _submitAuthForm(String email, String password) async {
-    var authResult = await _auth.registerWithEmailAndPassword(email, password);
-    print(authResult);
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final AuthService _auth = AuthService();
+  var _authForm = AuthForm.Login;
+
+  Future _submitAuthFormRegister(String email, String password) async {
+    dynamic authResult =
+        await _auth.registerWithEmailAndPassword(email, password);
+    return authResult;
+  }
+
+  Future _submitAuthFormLogin(String email, String password) async {
+    dynamic authResult = await _auth.loginWithEmailAndPassword(email, password);
+    return authResult;
+  }
+
+  Future _googleSignIn() async {
+    dynamic authResult = await _auth.googleSignIn();
+    return authResult;
+  }
+
+  Future _facebookSignIn() async {
+    dynamic authResult = await _auth.faceBookSignIn();
+    return authResult;
   }
 
   @override
@@ -21,9 +47,9 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Sign In',
+          _authForm == AuthForm.Login ? 'Sign In' : 'Sign Up',
           style: TextStyle(
-            fontSize: ScreenUtil().setSp(18),
+            fontSize: ScreenUtil().setSp(15),
           ),
         ),
       ),
@@ -61,7 +87,9 @@ class LoginScreen extends StatelessWidget {
                   height: ScreenUtil().setHeight(4),
                 ),
                 Text(
-                  "Sign in with your email and password\nor continue with social media",
+                  _authForm == AuthForm.Login
+                      ? "Sign in with your email and password\nor continue with social media"
+                      : "Sign up with your email and password\nor go back and continue with social media",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(15),
@@ -72,33 +100,20 @@ class LoginScreen extends StatelessWidget {
                   height: ScreenUtil().setHeight(90),
                 ),
                 AccountForm(
-                  _submitAuthForm,
+                  _submitAuthFormLogin,
+                  _submitAuthFormRegister,
+                  _authForm,
                 ),
                 SizedBox(
                   height: ScreenUtil().setHeight(35),
-                ),
-                OrDivider(),
-                SizedBox(
-                  height: ScreenUtil().setHeight(25),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SocialIcon('google'),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(30),
-                    ),
-                    SocialIcon('facebook'),
-                  ],
-                ),
-                SizedBox(
-                  height: ScreenUtil().setHeight(20),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'New to Thisapp?',
+                      _authForm == AuthForm.Login
+                          ? 'New to Thisapp?'
+                          : 'Already have an account?',
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(16),
                       ),
@@ -107,9 +122,18 @@ class LoginScreen extends StatelessWidget {
                       width: ScreenUtil().setWidth(4),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        setState(
+                          () {
+                            if (_authForm == AuthForm.Login)
+                              _authForm = AuthForm.SignUp;
+                            else
+                              _authForm = AuthForm.Login;
+                          },
+                        );
+                      },
                       child: Text(
-                        'Register',
+                        _authForm == AuthForm.Login ? 'Register' : 'Login',
                         style: TextStyle(
                           color: kPrimaryColor,
                           decoration: TextDecoration.underline,
@@ -119,6 +143,41 @@ class LoginScreen extends StatelessWidget {
                     )
                   ],
                 ),
+                if (_authForm == AuthForm.Login) ...[
+                  SizedBox(
+                    height: ScreenUtil().setHeight(35),
+                  ),
+                  OrDivider(),
+                  SizedBox(
+                    height: ScreenUtil().setHeight(25),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SocialIcon(
+                        color: kGoogleColor,
+                        icon: FontAwesomeIcons.google,
+                        press: () async {
+                          dynamic result = await _googleSignIn();
+                          if (result != null)
+                            Navigator.pushNamed(context, MainScreen.routeName);
+                        },
+                      ),
+                      SizedBox(
+                        width: ScreenUtil().setWidth(30),
+                      ),
+                      SocialIcon(
+                        color: kFacebookColor,
+                        icon: FontAwesomeIcons.facebook,
+                        press:  () async {
+                          dynamic result = await _facebookSignIn();
+                          if (result != null)
+                            Navigator.pushNamed(context, MainScreen.routeName);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),

@@ -1,23 +1,31 @@
-import 'package:ExpensesApp/widgets/default_button.dart';
+import 'package:ExpensesApp/screens/main_screen.dart';
+import 'login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-enum AuthMode { Signup, Login }
+import './enums.dart';
 
 class AccountForm extends StatefulWidget {
-  final Future<void> Function(String email, String password) _submitForm;
+  final Function(String email, String password) _submitFormLogin;
+  final Function(String email, String password) _submitFormRegister;
+  final _authForm;
+
   AccountForm(
-    this._submitForm,
+    this._submitFormLogin,
+    this._submitFormRegister,
+    this._authForm,
   );
   @override
   _AccountFormState createState() => _AccountFormState();
 }
 
-class _AccountFormState extends State<AccountForm> {
+class _AccountFormState extends State<AccountForm>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  var _isLoading = false;
+  var _isVisiblePassword = false;
+  var _isVisiblePasswordConfirmation = false;
   var _email = '';
   var _password = '';
+  var _passwordConfirmation = '';
 
   String _validatePassword(String value) {
     Pattern pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$';
@@ -30,6 +38,7 @@ class _AccountFormState extends State<AccountForm> {
   }
 
   String _validateEmail(String value) {
+   //  value = value.trim();
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
@@ -39,16 +48,43 @@ class _AccountFormState extends State<AccountForm> {
       return null;
   }
 
-  Future<void> _trySubmit() async {
-    print('intra');
+  Future _trySubmitLogin() async {
+    _email.trim();
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
-      print('intra aici');
       _formKey.currentState.save();
-      print(_email);
-      await widget._submitForm(_email, _password);
+      dynamic result = await widget._submitFormLogin(_email, _password);
+      return result;
     }
+  }
+
+  Future _trySubmitRegister() async {
+    _email.trim();
+    final isValid = _formKey.currentState.validate();
+    FocusScope.of(context).unfocus();
+    if (isValid && _password == _passwordConfirmation) {
+      print("intra aiciea");
+      _formKey.currentState.save();
+      dynamic result = await widget._submitFormRegister(_email, _password);
+      return result;
+    }
+  }
+
+  void _toggleVisibilityPassword() {
+    setState(
+      () {
+        _isVisiblePassword = !_isVisiblePassword;
+      },
+    );
+  }
+
+  void _toggleVisibilityPasswordConfirmation() {
+    setState(
+      () {
+        _isVisiblePasswordConfirmation = !_isVisiblePasswordConfirmation;
+      },
+    );
   }
 
   @override
@@ -63,12 +99,31 @@ class _AccountFormState extends State<AccountForm> {
             height: ScreenUtil().setHeight(15),
           ),
           buildPasswordFormField(),
+          if (widget._authForm == AuthForm.SignUp) ...[
+            SizedBox(
+              height: ScreenUtil().setHeight(15),
+            ),
+            buildConfirmPasswordFormField(),
+          ],
           SizedBox(
             height: ScreenUtil().setHeight(30),
           ),
-          DefaultButton(
-            press: _trySubmit,
-            text: 'Continue with Email',
+          LoginButton(
+            press: () async {
+              print("intra buton");
+              dynamic result;
+              if (widget._authForm == AuthForm.Login)
+                result = await _trySubmitLogin();
+              else
+                result = await _trySubmitRegister();
+              print(widget._authForm);
+              print(result);
+              if (result != null)
+                Navigator.pushNamed(context, MainScreen.routeName);
+            },
+            text: widget._authForm == AuthForm.Login
+                ? 'Sign in with Email'
+                : 'Sign up with Email',
           ),
         ],
       ),
@@ -77,6 +132,9 @@ class _AccountFormState extends State<AccountForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      style: TextStyle(
+        fontSize: ScreenUtil().setSp(18),
+      ),
       onSaved: (newValue) => _password = newValue,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
@@ -91,18 +149,68 @@ class _AccountFormState extends State<AccountForm> {
         hintStyle: TextStyle(
           fontSize: ScreenUtil().setSp(16),
         ),
-        suffixIcon: Icon(
-          Icons.visibility_off,
+        suffixIcon: Container(
+          margin: EdgeInsets.only(
+            right: ScreenUtil().setWidth(5),
+          ),
+          child: IconButton(
+            onPressed: _toggleVisibilityPassword,
+            icon: _isVisiblePassword
+                ? Icon(Icons.visibility)
+                : Icon(Icons.visibility_off),
+            iconSize: ScreenUtil().setSp(23),
+          ),
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
-      obscureText: true,
+      obscureText: !_isVisiblePassword,
+      validator: _validatePassword,
+    );
+  }
+
+  TextFormField buildConfirmPasswordFormField() {
+    return TextFormField(
+      style: TextStyle(
+        fontSize: ScreenUtil().setSp(18),
+      ),
+      onSaved: (newValue) => _passwordConfirmation = newValue,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: ScreenUtil().setWidth(42),
+          vertical: ScreenUtil().setHeight(20),
+        ),
+        labelText: 'Confirm password',
+        labelStyle: TextStyle(
+          fontSize: ScreenUtil().setSp(16),
+        ),
+        hintText: 'Enter your password again',
+        hintStyle: TextStyle(
+          fontSize: ScreenUtil().setSp(16),
+        ),
+        suffixIcon: Container(
+          margin: EdgeInsets.only(
+            right: ScreenUtil().setWidth(5),
+          ),
+          child: IconButton(
+            onPressed: _toggleVisibilityPasswordConfirmation,
+            icon: _isVisiblePasswordConfirmation
+                ? Icon(Icons.visibility)
+                : Icon(Icons.visibility_off),
+            iconSize: ScreenUtil().setSp(23),
+          ),
+        ),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+      obscureText: !_isVisiblePasswordConfirmation,
       validator: _validatePassword,
     );
   }
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+      style: TextStyle(
+        fontSize: ScreenUtil().setSp(18),
+      ),
       onSaved: (newValue) => _email = newValue,
       keyboardType: TextInputType.emailAddress,
       validator: _validateEmail,
