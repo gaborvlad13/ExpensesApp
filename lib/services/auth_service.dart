@@ -21,14 +21,9 @@ class AuthService {
 
   // login with mail and pass
   Future loginWithEmailAndPassword(String email, String password) async {
-    try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      return userCredential.user;
-    } catch (e) {
-      print("macarena");
-      return null;
-    }
+    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
+    return userCredential.user;
   }
 
   // google sign in

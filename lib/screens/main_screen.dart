@@ -2,6 +2,7 @@ import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/widgets/main_screen/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../widgets/main_screen/pages/history_page.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/main-screen';
@@ -13,9 +14,22 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedPosition = 0;
   final _tabs = ["Home", "Stats", "Ceva", "Settings"];
+  final _pages = [
+    HistoryPage(),
+    Container(
+      child: Text("test"),
+    ),
+    Container(
+      child: Text("test"),
+    ),
+    Container(
+      child: Text("test"),
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: _pages[_selectedPosition],
       appBar: AppBar(
         title: Text(
           _tabs[_selectedPosition],

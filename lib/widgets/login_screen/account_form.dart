@@ -5,7 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import './enums.dart';
 
 class AccountForm extends StatefulWidget {
-  final Function(String email, String password) _submitFormLogin;
+  final Function(String email, String password, BuildContext ctx)
+      _submitFormLogin;
   final Function(String email, String password) _submitFormRegister;
   final _authForm;
 
@@ -26,6 +27,15 @@ class _AccountFormState extends State<AccountForm>
   var _email = '';
   var _password = '';
   var _passwordConfirmation = '';
+  final _focusPassword = FocusNode();
+  final _focusConfirmPassword = FocusNode();
+
+  @override
+  void dispose() {
+    _focusPassword.dispose();
+    _focusConfirmPassword.dispose();
+    super.dispose();
+  }
 
   String _validatePassword(String value) {
     Pattern pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$';
@@ -38,7 +48,7 @@ class _AccountFormState extends State<AccountForm>
   }
 
   String _validateEmail(String value) {
-   //  value = value.trim();
+    //  value = value.trim();
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
@@ -48,13 +58,13 @@ class _AccountFormState extends State<AccountForm>
       return null;
   }
 
-  Future _trySubmitLogin() async {
+  Future _trySubmitLogin(BuildContext ctx) async {
     _email.trim();
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState.save();
-      dynamic result = await widget._submitFormLogin(_email, _password);
+      dynamic result = await widget._submitFormLogin(_email, _password, ctx);
       return result;
     }
   }
@@ -66,7 +76,8 @@ class _AccountFormState extends State<AccountForm>
     if (isValid && _password == _passwordConfirmation) {
       print("intra aiciea");
       _formKey.currentState.save();
-      dynamic result = await widget._submitFormRegister(_email, _password);
+      dynamic result =
+          await widget._submitFormRegister(_email.trim(), _password);
       return result;
     }
   }
@@ -113,7 +124,7 @@ class _AccountFormState extends State<AccountForm>
               print("intra buton");
               dynamic result;
               if (widget._authForm == AuthForm.Login)
-                result = await _trySubmitLogin();
+                result = await _trySubmitLogin(context);
               else
                 result = await _trySubmitRegister();
               print(widget._authForm);
@@ -136,6 +147,15 @@ class _AccountFormState extends State<AccountForm>
         fontSize: ScreenUtil().setSp(18),
       ),
       onSaved: (newValue) => _password = newValue,
+      textInputAction: widget._authForm == AuthForm.SignUp
+          ? TextInputAction.next
+          : TextInputAction.done,
+      focusNode: _focusPassword,
+      onFieldSubmitted: (_) {
+        widget._authForm == AuthForm.SignUp
+            ? FocusScope.of(context).requestFocus(_focusConfirmPassword)
+            : FocusScope.of(context).unfocus();
+      },
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),
@@ -174,6 +194,9 @@ class _AccountFormState extends State<AccountForm>
         fontSize: ScreenUtil().setSp(18),
       ),
       onSaved: (newValue) => _passwordConfirmation = newValue,
+      textInputAction: TextInputAction.done,
+      focusNode: _focusConfirmPassword,
+      onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),
@@ -214,6 +237,9 @@ class _AccountFormState extends State<AccountForm>
       onSaved: (newValue) => _email = newValue,
       keyboardType: TextInputType.emailAddress,
       validator: _validateEmail,
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted: (_) =>
+          FocusScope.of(context).requestFocus(_focusPassword),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),

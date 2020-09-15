@@ -2,6 +2,7 @@ import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/screens/main_screen.dart';
 import 'package:ExpensesApp/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../widgets/login_screen/account_form.dart';
@@ -26,9 +27,22 @@ class _LoginScreenState extends State<LoginScreen> {
     return authResult;
   }
 
-  Future _submitAuthFormLogin(String email, String password) async {
-    dynamic authResult = await _auth.loginWithEmailAndPassword(email, password);
-    return authResult;
+  Future _submitAuthFormLogin(
+      String email, String password, BuildContext ctx) async {
+    try {
+      dynamic authResult =
+          await _auth.loginWithEmailAndPassword(email, password);
+      return authResult;
+    }catch (e) {
+      var message = "An error occured, please check your credendials";
+      if (e.message != null) message = e.message;
+      Scaffold.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Theme.of(ctx).errorColor,
+        ),
+      );
+    }
   }
 
   Future _googleSignIn() async {
@@ -169,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SocialIcon(
                         color: kFacebookColor,
                         icon: FontAwesomeIcons.facebook,
-                        press:  () async {
+                        press: () async {
                           dynamic result = await _facebookSignIn();
                           if (result != null)
                             Navigator.pushNamed(context, MainScreen.routeName);
