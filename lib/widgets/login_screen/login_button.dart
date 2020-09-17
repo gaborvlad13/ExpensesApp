@@ -14,7 +14,6 @@ class LoginButton extends StatefulWidget {
   @override
   _LoginButtonState createState() => _LoginButtonState();
 }
-
 class _LoginButtonState extends State<LoginButton> {
   var _isLoading = false;
   @override

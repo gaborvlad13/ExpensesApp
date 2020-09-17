@@ -20,7 +20,7 @@ class TabItem extends StatelessWidget {
         horizontal: ScreenUtil().setWidth(15),
         vertical: ScreenUtil().setHeight(5),
       ),
-      child: InkWell(
+      child: GestureDetector(
         onTap: pressed,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -28,7 +28,7 @@ class TabItem extends StatelessWidget {
             Icon(
               icon,
               color: isSelected ? kPrimaryColor : Colors.grey,
-              size: ScreenUtil().setSp(28),
+              size: ScreenUtil().setSp(25),
             ),
             SizedBox(
               height: ScreenUtil().setHeight(2),
@@ -37,7 +37,7 @@ class TabItem extends StatelessWidget {
               text,
               style: TextStyle(
                 color: isSelected ? kPrimaryColor : Colors.grey,
-                fontSize: ScreenUtil().setSp(15),
+                fontSize: ScreenUtil().setSp(13),
               ),
             ),
           ],

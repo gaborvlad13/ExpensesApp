@@ -21,8 +21,9 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
   @override
   void dispose() {
-    _pageController.dispose();
     super.dispose();
+    _pageController.dispose();
+    
   }
 
   @override

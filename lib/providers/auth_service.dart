@@ -1,11 +1,22 @@
+import 'package:ExpensesApp/models/user_local.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthService {
+class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FacebookLogin _facebookLogin = FacebookLogin();
+
+  UserLocal _userFromFirebaseUser(User user) {
+    return user != null ? UserLocal(uid: user.uid) : null;
+  }
+
+  // auth change user stream
+  Stream<UserLocal> get user {
+    return _auth.authStateChanges().map(_userFromFirebaseUser);
+  }
 
   // register with mail and pass
   Future registerWithEmailAndPassword(String email, String password) async {

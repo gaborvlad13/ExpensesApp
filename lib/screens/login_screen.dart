@@ -1,6 +1,7 @@
 import 'package:ExpensesApp/config/palette.dart';
+import 'package:ExpensesApp/providers/auth_service.dart';
 import 'package:ExpensesApp/screens/main_screen.dart';
-import 'package:ExpensesApp/services/auth_service.dart';
+import 'package:ExpensesApp/providers/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

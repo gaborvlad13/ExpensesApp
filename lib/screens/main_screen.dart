@@ -1,7 +1,10 @@
-import 'package:ExpensesApp/config/palette.dart';
+import 'package:ExpensesApp/models/expense.dart';
+import 'package:ExpensesApp/models/user_local.dart';
+import 'package:ExpensesApp/providers/database.dart';
 import 'package:ExpensesApp/widgets/main_screen/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import '../widgets/main_screen/pages/history_page.dart';
 
 class MainScreen extends StatefulWidget {
@@ -28,23 +31,28 @@ class _MainScreenState extends State<MainScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    //ScreenUtil.init(context,
+       // width: 392.72, height: 713.45, allowFontScaling: false);
+    //String _uid = Provider.of<UserLocal>(context).uid;
     return Scaffold(
       body: _pages[_selectedPosition],
-      appBar: AppBar(
-        title: Text(
-          _tabs[_selectedPosition],
-          style: TextStyle(
-            fontSize: ScreenUtil().setSp(15),
-          ),
-        ),
-        centerTitle: true,
-      ),
       floatingActionButton: Container(
         height: ScreenUtil().setWidth(60),
         width: ScreenUtil().setWidth(60),
         child: FittedBox(
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Database().addExpense(
+                "ceva",
+                Expense(
+                  title: "ceva",
+                  categorie: "lifestyle",
+                  description: "ceva",
+                  price: 23.4,
+                  date: "23.04.2020",
+                ),
+              );
+            },
             child: Icon(
               Icons.add,
               color: Colors.white,
@@ -105,3 +113,26 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
+/*class MainScreen extends StatelessWidget {
+  static const routeName = "/main_screen";
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<List<Expense>>(context);
+    return provider != null
+        ? Scaffold(
+            body: ListView.builder(
+            itemBuilder: (context, index) {
+              return Row(
+                children: [
+                  GestureDetector(
+                    onTap: Database().test,
+                    child: Text(provider[index].date.toIso8601String()),
+                  ),
+                ],
+              );
+            },
+            itemCount: provider.length,
+          ))
+        : CircularProgressIndicator();
+  }
+}*/
