@@ -8,14 +8,14 @@ class Database with ChangeNotifier {
   Future addExpense(String uid, Expense expense) async {
     await _firestore
         .collection("userData")
-        .doc("P7do2NpwREbK1Ihqi0G1PRRy8MX2")
+        .doc(uid)
         .collection("expenses")
         .add({
       'title': expense.title,
       'description': expense.description,
       'price': expense.price,
       'date': expense.date,
-      'category': expense.categorie,
+      'category': expense.category,
     });
   }
 
@@ -35,17 +35,21 @@ class Database with ChangeNotifier {
       return snapshot.docs.map((e) => Expense.fromFirestore(e)).toList();
     } catch (e) {
       print(e.toString());
+      return null;
     }
   }
 
   Stream<List<Expense>> getExpenses(String uid) {
     try {
-      final reference =
-          _firestore.collection("userData").doc("P7do2NpwREbK1Ihqi0G1PRRy8MX2").collection("expenses");
+      final reference = _firestore
+          .collection("userData")
+          .doc(uid)
+          .collection("expenses");
       final snapshots = reference.snapshots();
       return snapshots.map((_expenseListFromSnapshot));
     } catch (e) {
       print(e.toString());
+      return null;
     }
   }
 }

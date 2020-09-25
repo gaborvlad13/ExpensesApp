@@ -7,7 +7,7 @@ class HistorySliverHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverPersistentHeader(
       delegate: Delegate(),
-      //pinned: true,
+      pinned: true,
       floating: true,
     );
   }
@@ -17,43 +17,28 @@ class Delegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Stack(
-      children: [
-        Container(
-          height: 200,
-          width: double.infinity,
-          //height: 230,
-          decoration: BoxDecoration(
-            color: Colors.teal,
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 60, left: 10, right: 10),
-            child: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Here you can see and filter the history of\nyour expenses",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(20),
-                  ),
-                  Material(
-                    elevation: 3,
-                    borderRadius: BorderRadius.circular(100),
-                    child: buildTextField(),
-                  ),
-                ],
-              ),
-            ),
-          ),
+    return Container(
+      color: kPrimaryColor,
+      height: 40,
+      child: TabBar(
+        labelStyle: TextStyle(
+          fontWeight: FontWeight.bold,
         ),
-      ],
+        tabs: [
+          Tab(
+            text: "Total",
+          ),
+          Tab(
+            text: "Week",
+          ),
+          Tab(
+            text: "Month",
+          ),
+          Tab(
+            text: "Date pick",
+          ),
+        ],
+      ),
     );
   }
 
@@ -84,11 +69,11 @@ class Delegate extends SliverPersistentHeaderDelegate {
 
   @override
   // TODO: implement maxExtent
-  double get maxExtent => 200;
+  double get maxExtent => 40;
 
   @override
   // TODO: implement minExtent
-  double get minExtent => 100;
+  double get minExtent => 40;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

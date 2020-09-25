@@ -18,18 +18,18 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   final _sliderController = SliderController();
   final _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
-
+  Timer timer;
   @override
   void dispose() {
     super.dispose();
     _pageController.dispose();
-    
+    timer.cancel();
   }
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(
+    timer = Timer.periodic(
       Duration(seconds: 5),
       (Timer timer) {
         if (_currentPage < 2) {
@@ -95,7 +95,12 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                 children: [
                   DefaultButton(
                     press: () {
-                      Navigator.pushNamed(context, LoginScreen.routeName);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ),
+                      );
                     },
                     text: 'Getting started',
                   ),

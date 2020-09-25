@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 ThemeData theme() {
   return ThemeData(
     scaffoldBackgroundColor: kScaffoldBackgroundColor,
-    primarySwatch: kPrimaryColor,
+    primaryColor: kPrimaryColor,
     accentColor: kAccentColor,
     appBarTheme: _appBarTheme(),
     fontFamily: "Helvetica",

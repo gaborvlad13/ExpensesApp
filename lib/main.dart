@@ -12,6 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'config/theme.dart';
 import 'models/expense.dart';
 import 'models/user_local.dart';
+import './screens/add_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,15 +29,17 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
     ]);
     return StreamProvider<UserLocal>.value(
+      initialData: UserLocal(uid: "loading"),
       value: AuthService().user,
       child: MaterialApp(
         theme: theme(),
-        title: 'Flutter App',
+        title: "Expenses App",
         debugShowCheckedModeBanner: false,
-        home: GetStartedScreen(),
+        home: Wrapper(),
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           MainScreen.routeName: (context) => MainScreen(),
+          AddScreen.routeName: (context) => AddScreen(),
         },
       ),
     );

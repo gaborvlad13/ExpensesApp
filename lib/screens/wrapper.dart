@@ -10,8 +10,16 @@ import 'getting_started_screen.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //final user = Provider.of<UserLocal>(context);
-  
+    final user = Provider.of<UserLocal>(context);
+    if (user == null)
+      return GetStartedScreen();
+    else if (user.uid == "loading")
+      return Scaffold(
+        body: Center(
+          child: Text("loading"),
+        ),
+      );
+    else
       return MainScreen();
   }
 }

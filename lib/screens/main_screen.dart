@@ -1,6 +1,8 @@
+import 'package:ExpensesApp/models/category.dart';
 import 'package:ExpensesApp/models/expense.dart';
 import 'package:ExpensesApp/models/user_local.dart';
 import 'package:ExpensesApp/providers/database.dart';
+import 'package:ExpensesApp/screens/add_screen.dart';
 import 'package:ExpensesApp/widgets/main_screen/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,38 +33,33 @@ class _MainScreenState extends State<MainScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    //ScreenUtil.init(context,
-       // width: 392.72, height: 713.45, allowFontScaling: false);
-    //String _uid = Provider.of<UserLocal>(context).uid;
-    return Scaffold(
-      body: _pages[_selectedPosition],
-      floatingActionButton: Container(
-        height: ScreenUtil().setWidth(60),
-        width: ScreenUtil().setWidth(60),
-        child: FittedBox(
-          child: FloatingActionButton(
-            onPressed: () {
-              Database().addExpense(
-                "ceva",
-                Expense(
-                  title: "ceva",
-                  categorie: "lifestyle",
-                  description: "ceva",
-                  price: 23.4,
-                  date: "23.04.2020",
-                ),
-              );
-            },
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: ScreenUtil().setSp(28),
+    ScreenUtil.init(context,
+        width: 392.72, height: 713.45, allowFontScaling: false);
+    UserLocal _userLocal = Provider.of<UserLocal>(context);
+
+    return SafeArea(
+      child: Scaffold(
+        body: _pages[_selectedPosition],
+        floatingActionButton: Container(
+          height: ScreenUtil().setWidth(60),
+          width: ScreenUtil().setWidth(60),
+          child: FittedBox(
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AddScreen.routeName,
+                    arguments: null);
+              },
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+                size: ScreenUtil().setSp(28),
+              ),
             ),
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: _buildBottomBar(),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: _buildBottomBar(),
     );
   }
 
