@@ -1,4 +1,0 @@
-enum AuthForm {
-  Login,
-  SignUp,
-}
