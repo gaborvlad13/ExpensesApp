@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       dynamic authResult =
           await _auth.loginWithEmailAndPassword(email, password);
       return authResult;
-    }catch (e) {
+    } catch (e) {
       var message = "An error occured, please check your credendials";
       if (e.message != null) message = e.message;
       Scaffold.of(ctx).showSnackBar(
@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Theme.of(ctx).errorColor,
         ),
       );
+      return null;
     }
   }
 

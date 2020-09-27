@@ -6,17 +6,15 @@ class Database with ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future addExpense(String uid, Expense expense) async {
-    await _firestore
-        .collection("userData")
-        .doc(uid)
-        .collection("expenses")
-        .add({
-      'title': expense.title,
-      'description': expense.description,
-      'price': expense.price,
-      'date': expense.date,
-      'category': expense.category,
-    });
+    await _firestore.collection("userData").doc(uid).collection("expenses").add(
+      {
+        'title': expense.title,
+        'description': expense.description,
+        'price': expense.price,
+        'date': Timestamp.fromDate(expense.date),
+        'category': expense.category,
+      },
+    );
   }
 
   void test() {
@@ -44,7 +42,8 @@ class Database with ChangeNotifier {
       final reference = _firestore
           .collection("userData")
           .doc(uid)
-          .collection("expenses");
+          .collection("expenses")
+          .orderBy("date", descending: true);
       final snapshots = reference.snapshots();
       return snapshots.map((_expenseListFromSnapshot));
     } catch (e) {

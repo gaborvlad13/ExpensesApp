@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Expense {
   String id;
-  String date;
+  DateTime date;
   String title;
   String description;
   double price;
@@ -20,7 +20,7 @@ class Expense {
     Map data = doc.data();
     return Expense(
       id: doc.id,
-      date: data['date'],
+      date: data['date'].toDate(),
       title: data['title'],
       description: data['description'],
       price: data['price'],

@@ -1,12 +1,13 @@
-import 'package:ExpensesApp/models/category.dart';
 import 'package:ExpensesApp/models/expense.dart';
+import 'package:ExpensesApp/models/user_local.dart';
+import 'package:ExpensesApp/providers/database.dart';
+import 'package:ExpensesApp/widgets/add_screen/category_header_list.dart';
 import 'package:ExpensesApp/widgets/add_screen/details_form.dart';
-import 'package:ExpensesApp/widgets/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:provider/provider.dart';
 import '../config/constants.dart';
-import '../config/palette.dart';
-import '../widgets/add_screen/category_header.dart';
+import '../widgets/add_screen/category_header_image.dart';
 
 class AddScreen extends StatefulWidget {
   static const routeName = 'add_page';
@@ -16,39 +17,37 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  final FormController _formController = FormController();
   String _categoryKey = "food";
-  String _title;
-  String _description;
-  double _price;
-  DateTime _dateTime;
-
   void _modifyHeader(String key) {
     setState(() {
       _categoryKey = key;
     });
   }
 
-  void _assignTitle(String title) {
-    _title = title;
-  }
+  Future _addProduct(
+      String title, String description, double price, DateTime date) async {
+    try {
+      final userProvider = Provider.of<UserLocal>(context, listen: false);
+      dynamic result = Database().addExpense(
+        userProvider.uid,
+        Expense(
+          category: _categoryKey,
+          date: date,
+          description: description,
+          price: price,
+          title: title,
+        ),
+      );
 
-  void _assignDescription(String description) {
-    _description = description;
-  }
-
-  void _assignPrice(String price) {
-    _price = double.parse(price);
-  }
-
-  void done() {
-    _formKey.currentState.validate();
+      return result;
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    //final Expense _expense = ModalRoute.of(context).settings.arguments;
-    //final Expense _expense = Expense(category: Categories.categories['food']);
     return SafeArea(
       child: Scaffold(
         floatingActionButton: buildFloatingActionButton(),
@@ -56,23 +55,24 @@ class _AddScreenState extends State<AddScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              CategoryHeader(
+              CategoryHeaderImage(
                 _categoryKey,
                 Categories.categories[_categoryKey].icon,
                 Categories.categories[_categoryKey].linearGradient,
               ),
               SizedBox(
-                height: 12,
+                height: ScreenUtil().setHeight(30),
+              ),
+              CategoryHeaderList(_modifyHeader),
+              SizedBox(
+                height: ScreenUtil().setHeight(30),
               ),
               Container(
-                height: 700,
+                height: ScreenUtil().setHeight(360),
                 width: double.infinity,
                 child: DetailsForm(
-                  _formKey,
-                  _modifyHeader,
-                  _assignTitle,
-                  _assignDescription,
-                  _assignPrice,
+                  _addProduct,
+                  _formController,
                 ),
               ),
             ],
@@ -88,7 +88,12 @@ class _AddScreenState extends State<AddScreen> {
       width: ScreenUtil().setWidth(60),
       child: FittedBox(
         child: FloatingActionButton(
-          onPressed: done,
+          onPressed: () async {
+            dynamic result = await _formController.submitForm();
+            if (result != null) {
+              Navigator.of(context).pop();
+            }
+          },
           child: Icon(
             Icons.check,
             color: Colors.white,

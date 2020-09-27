@@ -2,13 +2,16 @@ import 'package:ExpensesApp/config/constants.dart';
 import 'package:ExpensesApp/config/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class GridItem extends StatelessWidget {
   final String _name;
   final String _description;
   final double _price;
+  final DateTime _date;
   final String _categoryName;
-  GridItem(this._name, this._description, this._price, this._categoryName);
+  GridItem(this._name, this._description, this._price, this._date,
+      this._categoryName);
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +22,20 @@ class GridItem extends StatelessWidget {
       elevation: 3,
       child: Column(
         children: [
-          Hero(
-            tag: _name,
-            child: Container(
-              height: 90,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                ),
-                gradient: Categories.categories[_categoryName].linearGradient,
+          Container(
+            height: 90,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
               ),
-              child: Icon(
-                Categories.categories[_categoryName].icon,
-                color: Colors.white,
-                size: 40,
-              ),
+              gradient: Categories.categories[_categoryName].linearGradient,
+            ),
+            child: Icon(
+              Categories.categories[_categoryName].icon,
+              color: Colors.white,
+              size: 40,
             ),
           ),
           SizedBox(
@@ -94,7 +94,7 @@ class GridItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "23.05.2021",
+                    DateFormat("dd.MM.yyy").format(_date),
                     style: TextStyle(
                       color: Color(0xFF525252),
                       fontSize: 14,

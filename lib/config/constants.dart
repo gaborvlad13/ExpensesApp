@@ -8,7 +8,7 @@ class Categories {
   static const categories = {
     'food': Category(
       name: "food",
-      icon: Icons.fastfood,
+      icon: FontAwesomeIcons.hamburger,
       linearGradient: kFoodGradient,
     ),
     'clothes': Category(
@@ -27,6 +27,4 @@ class Categories {
       linearGradient: kEducation,
     ),
   };
-
-   
 }

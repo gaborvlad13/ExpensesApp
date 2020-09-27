@@ -63,6 +63,7 @@ class Grid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final list = Provider.of<List<Expense>>(context);
+    final userProvider = Provider.of<UserLocal>(context);
     print("build called");
     return list != null
         ? SliverPadding(
@@ -85,6 +86,7 @@ class Grid extends StatelessWidget {
                       list[index].title,
                       list[index].description,
                       list[index].price,
+                      list[index].date,
                       list[index].category,
                     ),
                   );

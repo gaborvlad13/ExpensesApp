@@ -1,43 +1,71 @@
-import 'package:ExpensesApp/config/constants.dart';
 import 'package:ExpensesApp/config/palette.dart';
-import 'package:ExpensesApp/models/category.dart';
+import 'package:ExpensesApp/config/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+
+class FormController {
+  Future Function() submitForm;
+}
 
 class DetailsForm extends StatefulWidget {
-  final GlobalKey<FormState> formKey;
-  final Function modifyHeader;
-  final Function assignTitle;
-  final Function assignDescription;
-  final Function assignPrice;
+  final FormController _controller;
+  final Function(String title, String description, double price, DateTime date)
+      _submitForm;
+
   DetailsForm(
-    this.formKey,
-    this.modifyHeader,
-    this.assignTitle,
-    this.assignDescription,
-    this.assignPrice,
+    this._submitForm,
+    this._controller,
   );
   @override
-  _DetailsFormState createState() => _DetailsFormState();
+  _DetailsFormState createState() => _DetailsFormState(_controller);
 }
 
 class _DetailsFormState extends State<DetailsForm> {
-  DateTime dateTime = DateTime.now();
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  DateTime _date = DateTime.now();
   String _title;
   String _description;
-  String _priceAux;
   double _price;
+  final _focusDescription = FocusNode();
+  final _focusPrice = FocusNode();
+  final _focusDate = FocusNode();
+
+  _DetailsFormState(FormController _controller) {
+    _controller.submitForm = _submitForm;
+  }
+
+  @override
+  void dispose() {
+    _focusDescription.dispose();
+    _focusPrice.dispose();
+    _focusDate.dispose();
+    super.dispose();
+  }
+
+  Future _submitForm() async {
+    final isValid = _formKey.currentState.validate();
+    FocusScope.of(context).unfocus();
+    if (isValid) {
+      _formKey.currentState.save();
+      dynamic result =
+          await widget._submitForm(_title, _description, _price, _date);
+      return result;
+    }
+  }
 
   String _validateTitle(String title) {
     if (title == null || title.length == 0)
       return "Title field must not be empty";
+    return null;
   }
 
   String _validateDescription(String description) {
     if (description == null || description.length == 0)
       return "Description field must not be empty";
+    return null;
   }
 
   String _validatePrice(String price) {
@@ -46,120 +74,33 @@ class _DetailsFormState extends State<DetailsForm> {
     if (double.parse(price, (e) => null) == null)
       return "Price must be a numeric value";
     else if (double.parse(price) < 0) return "Price must be positive";
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: ScreenUtil().setHeight(12),
-        ),
-        Container(
-          height: ScreenUtil().setHeight(110),
-          child: ListView(
-            physics: BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            children: [
-              ...Categories.categories.entries
-                  .map((e) => _buildPreview(e.key, e.value)),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: ScreenUtil().setWidth(10),
-            vertical: ScreenUtil().setHeight(10),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: ScreenUtil().setHeight(15),
-              ),
-              Form(
-                key: widget.formKey,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: ScreenUtil().setHeight(15),
-                    ),
-                    _buildTextFormField(
-                      20,
-                      widget.assignTitle,
-                      "Title",
-                      "Enter title (max 20 chars)",
-                      TextInputType.text,
-                      _validateTitle,
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(20),
-                    ),
-                    _buildTextFormField(
-                      30,
-                      widget.assignDescription,
-                      "Description",
-                      "Enter description (max 30 chars)",
-                      TextInputType.text,
-                      _validateDescription,
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(20),
-                    ),
-                    _buildTextFormField(
-                      10,
-                      widget.assignPrice,
-                      "Price",
-                      "Enter price (max 10 chars)",
-                      TextInputType.number,
-                      _validatePrice,
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(20),
-                    ),
-                    _buildDateForm(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Text _buildText(String text) {
-    return Text(
-      text,
-      style: TextStyle(
-        color: Colors.black54,
-        fontSize: ScreenUtil().setSp(20),
-        fontWeight: FontWeight.bold,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: ScreenUtil().setWidth(20),
       ),
-    );
-  }
-
-  GestureDetector _buildPreview(String key, Category category) {
-    return GestureDetector(
-      onTap: () {
-        widget.modifyHeader(key);
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: ScreenUtil().setWidth(3),
-          vertical: ScreenUtil().setHeight(5),
-        ),
-        height: ScreenUtil().setHeight(100),
-        width: ScreenUtil().setWidth(100),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          gradient: category.linearGradient,
-        ),
-        child: Icon(
-          category.icon,
-          color: Colors.white,
-          size: ScreenUtil().setSp(40),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            _buildTitleFormField(),
+            SizedBox(
+              height: ScreenUtil().setHeight(15),
+            ),
+            _buildDescriptionFormField(),
+            SizedBox(
+              height: ScreenUtil().setHeight(15),
+            ),
+            _buildPriceFormField(),
+            SizedBox(
+              height: ScreenUtil().setHeight(15),
+            ),
+            _buildDateForm(),
+          ],
         ),
       ),
     );
@@ -171,7 +112,7 @@ class _DetailsFormState extends State<DetailsForm> {
         DateTime dateTimeTest = await _pickDate();
         if (dateTimeTest != null) {
           setState(() {
-            dateTime = dateTimeTest;
+            _date = dateTimeTest;
           });
         }
       },
@@ -179,10 +120,14 @@ class _DetailsFormState extends State<DetailsForm> {
       style: TextStyle(
         fontSize: ScreenUtil().setSp(18),
       ),
+      focusNode: _focusDate,
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.calendar_today),
+        prefixIcon: Icon(
+          Icons.calendar_today,
+          size: ScreenUtil().setSp(25),
+        ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),
           vertical: ScreenUtil().setHeight(20),
@@ -191,7 +136,7 @@ class _DetailsFormState extends State<DetailsForm> {
         labelStyle: TextStyle(
           fontSize: ScreenUtil().setSp(16),
         ),
-        hintText: dateTime.toIso8601String(),
+        hintText: DateFormat("dd.MM.yyy").format(_date),
         hintStyle: TextStyle(
           fontSize: ScreenUtil().setSp(16),
         ),
@@ -205,37 +150,82 @@ class _DetailsFormState extends State<DetailsForm> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2001),
-      lastDate: DateTime(2021),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: calendarTheme(),
+          child: child,
+        );
+      },
     );
     return date;
   }
 
-  TextFormField _buildTextFormField(int maxLen, Function saved, String label,
-      String hint, TextInputType type, Function validate) {
+  TextFormField _buildTitleFormField() {
     return TextFormField(
-      maxLength: maxLen,
-      onSaved: (newValue) => saved(newValue),
+        textCapitalization: TextCapitalization.sentences,
+        maxLength: 20,
+        onSaved: (newValue) => _title = newValue,
+        style: TextStyle(
+          fontSize: ScreenUtil().setSp(18),
+        ),
+        onFieldSubmitted: (_) =>
+            FocusScope.of(context).requestFocus(_focusDescription),
+        textInputAction: TextInputAction.next,
+        keyboardType: TextInputType.text,
+        decoration: _textFieldDecoration("Title", "Enter title (max 20 chars)"),
+        validator: _validateTitle);
+  }
+
+  TextFormField _buildDescriptionFormField() {
+    return TextFormField(
+      textCapitalization: TextCapitalization.sentences,
+      maxLength: 30,
+      onSaved: (newValue) => _description = newValue,
       style: TextStyle(
         fontSize: ScreenUtil().setSp(18),
       ),
+      focusNode: _focusDescription,
+      onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_focusPrice),
       textInputAction: TextInputAction.next,
-      keyboardType: type,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: ScreenUtil().setWidth(42),
-          vertical: ScreenUtil().setHeight(20),
+      keyboardType: TextInputType.text,
+      decoration: _textFieldDecoration(
+          "Description", "Enter description (max 30 chars)"),
+      validator: _validateDescription,
+    );
+  }
+
+  TextFormField _buildPriceFormField() {
+    return TextFormField(
+        maxLength: 10,
+        onSaved: (newValue) => _price = double.parse(newValue),
+        style: TextStyle(
+          fontSize: ScreenUtil().setSp(18),
         ),
-        labelText: label,
-        labelStyle: TextStyle(
-          fontSize: ScreenUtil().setSp(16),
-        ),
-        hintText: hint,
-        hintStyle: TextStyle(
-          fontSize: ScreenUtil().setSp(16),
-        ),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        focusNode: _focusPrice,
+        onFieldSubmitted: (_) =>
+            FocusScope.of(context).requestFocus(_focusDate),
+        textInputAction: TextInputAction.next,
+        keyboardType: TextInputType.number,
+        decoration: _textFieldDecoration("Price", "Enter price (max 10 chars)"),
+        validator: _validatePrice);
+  }
+
+  InputDecoration _textFieldDecoration(String label, String hint) {
+    return InputDecoration(
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: ScreenUtil().setWidth(42),
+        vertical: ScreenUtil().setHeight(20),
       ),
-      validator: validate,
+      labelText: label,
+      labelStyle: TextStyle(
+        fontSize: ScreenUtil().setSp(16),
+      ),
+      hintText: hint,
+      hintStyle: TextStyle(
+        fontSize: ScreenUtil().setSp(16),
+      ),
+      floatingLabelBehavior: FloatingLabelBehavior.always,
     );
   }
 }

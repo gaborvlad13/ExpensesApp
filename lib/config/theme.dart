@@ -13,6 +13,30 @@ ThemeData theme() {
   );
 }
 
+ThemeData calendarTheme() {
+  return ThemeData.light().copyWith(
+    textSelectionColor: kPrimaryColor,
+    colorScheme: ColorScheme.light(
+      primary: kPrimaryColor,
+    ),
+    buttonTheme: ButtonThemeData(),
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: TextStyle(
+        color: kPrimaryColor,
+      ),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: kPrimaryColor),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: kPrimaryColor),
+      ),
+      border: UnderlineInputBorder(
+        borderSide: BorderSide(color: kPrimaryColor),
+      ),
+    ),
+  );
+}
+
 TextTheme _textTheme() {
   return TextTheme(
     bodyText1: TextStyle(color: kTextColor),
