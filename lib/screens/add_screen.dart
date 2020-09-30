@@ -11,14 +11,15 @@ import '../widgets/add_screen/category_header_image.dart';
 
 class AddScreen extends StatefulWidget {
   static const routeName = 'add_page';
-
   @override
   _AddScreenState createState() => _AddScreenState();
 }
 
 class _AddScreenState extends State<AddScreen> {
   final FormController _formController = FormController();
+  final _db = Database();
   String _categoryKey = "food";
+
   void _modifyHeader(String key) {
     setState(() {
       _categoryKey = key;
@@ -26,10 +27,16 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   Future _addProduct(
-      String title, String description, double price, DateTime date) async {
+    String title,
+    String description,
+    double price,
+    DateTime date,
+    BuildContext ctx,
+  ) async {
     try {
       final userProvider = Provider.of<UserLocal>(context, listen: false);
-      dynamic result = Database().addExpense(
+      Navigator.of(context).pop();
+      dynamic result = _db.addExpense(
         userProvider.uid,
         Expense(
           category: _categoryKey,
@@ -39,15 +46,16 @@ class _AddScreenState extends State<AddScreen> {
           title: title,
         ),
       );
-
       return result;
     } catch (e) {
+      print(e.toString());
       return null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print("build add form");
     return SafeArea(
       child: Scaffold(
         floatingActionButton: buildFloatingActionButton(),
@@ -64,11 +72,10 @@ class _AddScreenState extends State<AddScreen> {
                 height: ScreenUtil().setHeight(30),
               ),
               CategoryHeaderList(_modifyHeader),
-              SizedBox(
-                height: ScreenUtil().setHeight(30),
-              ),
               Container(
-                height: ScreenUtil().setHeight(360),
+                margin: EdgeInsets.symmetric(
+                  vertical: ScreenUtil().setWidth(30),
+                ),
                 width: double.infinity,
                 child: DetailsForm(
                   _addProduct,
@@ -89,10 +96,7 @@ class _AddScreenState extends State<AddScreen> {
       child: FittedBox(
         child: FloatingActionButton(
           onPressed: () async {
-            dynamic result = await _formController.submitForm();
-            if (result != null) {
-              Navigator.of(context).pop();
-            }
+            await _formController.submitForm();
           },
           child: Icon(
             Icons.check,

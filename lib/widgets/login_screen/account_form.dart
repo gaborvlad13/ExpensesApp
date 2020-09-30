@@ -157,6 +157,9 @@ class _AccountFormState extends State<AccountForm>
             : FocusScope.of(context).unfocus();
       },
       decoration: InputDecoration(
+        errorStyle: TextStyle(
+          fontSize: ScreenUtil().setSp(15),
+        ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),
           vertical: ScreenUtil().setHeight(20),
@@ -198,6 +201,9 @@ class _AccountFormState extends State<AccountForm>
       focusNode: _focusConfirmPassword,
       onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
       decoration: InputDecoration(
+        errorStyle: TextStyle(
+          fontSize: ScreenUtil().setSp(15),
+        ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),
           vertical: ScreenUtil().setHeight(20),
@@ -241,6 +247,9 @@ class _AccountFormState extends State<AccountForm>
       onFieldSubmitted: (_) =>
           FocusScope.of(context).requestFocus(_focusPassword),
       decoration: InputDecoration(
+        errorStyle: TextStyle(
+          fontSize: ScreenUtil().setSp(15),
+        ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),
           vertical: ScreenUtil().setHeight(20),

@@ -12,8 +12,13 @@ class FormController {
 
 class DetailsForm extends StatefulWidget {
   final FormController _controller;
-  final Function(String title, String description, double price, DateTime date)
-      _submitForm;
+  final Function(
+    String title,
+    String description,
+    double price,
+    DateTime date,
+    BuildContext ctx,
+  ) _submitForm;
 
   DetailsForm(
     this._submitForm,
@@ -50,8 +55,8 @@ class _DetailsFormState extends State<DetailsForm> {
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState.save();
-      dynamic result =
-          await widget._submitForm(_title, _description, _price, _date);
+      dynamic result = await widget._submitForm(
+          _title, _description, _price, _date, context);
       return result;
     }
   }
@@ -79,6 +84,7 @@ class _DetailsFormState extends State<DetailsForm> {
 
   @override
   Widget build(BuildContext context) {
+    print("build details");
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: ScreenUtil().setWidth(20),
@@ -124,9 +130,14 @@ class _DetailsFormState extends State<DetailsForm> {
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        prefixIcon: Icon(
-          Icons.calendar_today,
-          size: ScreenUtil().setSp(25),
+        prefixIcon: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: ScreenUtil().setWidth(10),
+          ),
+          child: Icon(
+            Icons.calendar_today,
+            size: ScreenUtil().setSp(25),
+          ),
         ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),
@@ -164,7 +175,7 @@ class _DetailsFormState extends State<DetailsForm> {
   TextFormField _buildTitleFormField() {
     return TextFormField(
         textCapitalization: TextCapitalization.sentences,
-        maxLength: 20,
+        maxLength: 15,
         onSaved: (newValue) => _title = newValue,
         style: TextStyle(
           fontSize: ScreenUtil().setSp(18),
@@ -173,7 +184,7 @@ class _DetailsFormState extends State<DetailsForm> {
             FocusScope.of(context).requestFocus(_focusDescription),
         textInputAction: TextInputAction.next,
         keyboardType: TextInputType.text,
-        decoration: _textFieldDecoration("Title", "Enter title (max 20 chars)"),
+        decoration: _textFieldDecoration("Title", "Enter title (max 15 chars)"),
         validator: _validateTitle);
   }
 
@@ -213,6 +224,9 @@ class _DetailsFormState extends State<DetailsForm> {
 
   InputDecoration _textFieldDecoration(String label, String hint) {
     return InputDecoration(
+      errorStyle: TextStyle(
+        fontSize: ScreenUtil().setSp(15),
+      ),
       contentPadding: EdgeInsets.symmetric(
         horizontal: ScreenUtil().setWidth(42),
         vertical: ScreenUtil().setHeight(20),

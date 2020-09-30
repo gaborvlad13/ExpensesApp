@@ -6,7 +6,11 @@ class Database with ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future addExpense(String uid, Expense expense) async {
-    await _firestore.collection("userData").doc(uid).collection("expenses").add(
+    var result = await _firestore
+        .collection("userData")
+        .doc(uid)
+        .collection("expenses")
+        .add(
       {
         'title': expense.title,
         'description': expense.description,
@@ -15,17 +19,17 @@ class Database with ChangeNotifier {
         'category': expense.category,
       },
     );
+    return result;
   }
 
-  void test() {
-    final reference =
-        _firestore.collection("userData").doc("ceva").collection("expenses");
-    final snapshot = reference.snapshots();
-    snapshot.forEach((element) {
-      element.docs.forEach((element) {
-        print(element.id);
-      });
-    });
+  Future deleteExpense(String uid, String expenseId) async {
+    var result = await _firestore
+        .collection("userData")
+        .doc(uid)
+        .collection("expenses")
+        .doc(expenseId)
+        .delete();
+    return result;
   }
 
   List<Expense> _expenseListFromSnapshot(QuerySnapshot snapshot) {
