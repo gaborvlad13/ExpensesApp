@@ -17,9 +17,11 @@ class Database with ChangeNotifier {
         'price': expense.price,
         'date': Timestamp.fromDate(expense.date),
         'category': expense.category,
+        'dateAddedInApp': Timestamp.fromDate(DateTime.now()),
       },
     );
-    return result;
+
+    return result.id;
   }
 
   Future deleteExpense(String uid, String expenseId) async {
@@ -30,6 +32,22 @@ class Database with ChangeNotifier {
         .doc(expenseId)
         .delete();
     return result;
+  }
+
+  Future updateExpense(String uid, String id, Expense expense) async {
+    await _firestore
+        .collection("userData")
+        .doc(uid)
+        .collection("expenses")
+        .doc(id)
+        .update({
+      'title': expense.title,
+      'description': expense.description,
+      'price': expense.price,
+      'date': Timestamp.fromDate(expense.date),
+      'category': expense.category,
+    });
+    return true;
   }
 
   List<Expense> _expenseListFromSnapshot(QuerySnapshot snapshot) {
@@ -47,7 +65,10 @@ class Database with ChangeNotifier {
           .collection("userData")
           .doc(uid)
           .collection("expenses")
-          .orderBy("date", descending: true);
+          .orderBy(
+            "dateAddedInApp",
+            descending: true,
+          );
       final snapshots = reference.snapshots();
       return snapshots.map((_expenseListFromSnapshot));
     } catch (e) {

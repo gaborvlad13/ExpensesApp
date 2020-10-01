@@ -1,5 +1,6 @@
 import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/config/theme.dart';
+import 'package:ExpensesApp/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,10 @@ class FormController {
 }
 
 class DetailsForm extends StatefulWidget {
+  final String _initialTitle;
+  final String _initialDescription;
+  final double _initialPrice;
+  final DateTime _initialDate;
   final FormController _controller;
   final Function(
     String title,
@@ -21,16 +26,22 @@ class DetailsForm extends StatefulWidget {
   ) _submitForm;
 
   DetailsForm(
-    this._submitForm,
+    this._initialTitle,
+    this._initialDescription,
+    this._initialPrice,
+    this._initialDate,
     this._controller,
+    this._submitForm,
   );
   @override
-  _DetailsFormState createState() => _DetailsFormState(_controller);
+  _DetailsFormState createState() => _DetailsFormState(
+        _controller,
+      );
 }
 
 class _DetailsFormState extends State<DetailsForm> {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  DateTime _date = DateTime.now();
+  DateTime _date;
   String _title;
   String _description;
   double _price;
@@ -40,6 +51,15 @@ class _DetailsFormState extends State<DetailsForm> {
 
   _DetailsFormState(FormController _controller) {
     _controller.submitForm = _submitForm;
+  }
+
+  @override
+  void initState() {
+    _title = widget._initialTitle;
+    _description = widget._initialDescription;
+    _price = widget._initialPrice;
+    _date = widget._initialDate;
+    super.initState();
   }
 
   @override
@@ -129,29 +149,9 @@ class _DetailsFormState extends State<DetailsForm> {
       focusNode: _focusDate,
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        prefixIcon: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: ScreenUtil().setWidth(10),
-          ),
-          child: Icon(
-            Icons.calendar_today,
-            size: ScreenUtil().setSp(25),
-          ),
-        ),
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: ScreenUtil().setWidth(42),
-          vertical: ScreenUtil().setHeight(20),
-        ),
-        labelText: 'Date',
-        labelStyle: TextStyle(
-          fontSize: ScreenUtil().setSp(16),
-        ),
-        hintText: DateFormat("dd.MM.yyy").format(_date),
-        hintStyle: TextStyle(
-          fontSize: ScreenUtil().setSp(16),
-        ),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+      decoration: _textFieldDecoration(
+        "Date",
+        DateFormat("dd.MM.yyy").format(_date),
       ),
     );
   }
@@ -174,6 +174,7 @@ class _DetailsFormState extends State<DetailsForm> {
 
   TextFormField _buildTitleFormField() {
     return TextFormField(
+        initialValue: _title,
         textCapitalization: TextCapitalization.sentences,
         maxLength: 15,
         onSaved: (newValue) => _title = newValue,
@@ -190,6 +191,7 @@ class _DetailsFormState extends State<DetailsForm> {
 
   TextFormField _buildDescriptionFormField() {
     return TextFormField(
+      initialValue: _description,
       textCapitalization: TextCapitalization.sentences,
       maxLength: 30,
       onSaved: (newValue) => _description = newValue,
@@ -208,6 +210,7 @@ class _DetailsFormState extends State<DetailsForm> {
 
   TextFormField _buildPriceFormField() {
     return TextFormField(
+        initialValue: _price != null ? removeDecimalZeroFormat(_price) : null,
         maxLength: 10,
         onSaved: (newValue) => _price = double.parse(newValue),
         style: TextStyle(
@@ -241,5 +244,9 @@ class _DetailsFormState extends State<DetailsForm> {
       ),
       floatingLabelBehavior: FloatingLabelBehavior.always,
     );
+  }
+
+  String removeDecimalZeroFormat(double n) {
+    return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : 1);
   }
 }

@@ -19,18 +19,41 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedPosition = 0;
   final _tabs = ["Home", "Stats", "Ceva", "Settings"];
-  final _pages = [
-    HistoryPage(),
-    Container(
-      child: Text("test"),
-    ),
-    Container(
-      child: Text("test"),
-    ),
-    Container(
-      child: Text("test"),
-    ),
-  ];
+  var _pages;
+  bool _loaded = false;
+  @override
+  void didChangeDependencies() {
+    if (!_loaded) {
+      _pages = [
+        StreamProvider<List<Expense>>.value(
+          initialData: [
+            Expense(
+              id: "initial",
+              category: "",
+              date: DateTime.now(),
+              description: "",
+              price: 0.00,
+              title: "",
+            ),
+          ],
+          value: Database().getExpenses(Provider.of<UserLocal>(context).uid),
+          child: HistoryPage(),
+        ),
+        Container(
+          child: Text("test"),
+        ),
+        Container(
+          child: Text("test"),
+        ),
+        Container(
+          child: Text("test"),
+        ),
+      ];
+      _loaded = true;
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context,
@@ -46,8 +69,12 @@ class _MainScreenState extends State<MainScreen> {
           child: FittedBox(
             child: FloatingActionButton(
               onPressed: () {
-                Navigator.pushNamed(context, AddScreen.routeName,
-                    arguments: null);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddScreen(null),
+                  ),
+                );
               },
               child: Icon(
                 Icons.add,

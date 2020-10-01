@@ -11,6 +11,9 @@ import '../widgets/add_screen/category_header_image.dart';
 
 class AddScreen extends StatefulWidget {
   static const routeName = 'add_page';
+  final Expense _expense;
+  AddScreen(this._expense);
+
   @override
   _AddScreenState createState() => _AddScreenState();
 }
@@ -18,7 +21,19 @@ class AddScreen extends StatefulWidget {
 class _AddScreenState extends State<AddScreen> {
   final FormController _formController = FormController();
   final _db = Database();
-  String _categoryKey = "food";
+  String _categoryKey;
+  String _id;
+  @override
+  void initState() {
+    if (widget._expense != null) {
+      _categoryKey = widget._expense.category;
+      _id = widget._expense.id;
+    } else {
+      _categoryKey = "food";
+      _id = "";
+    }
+    super.initState();
+  }
 
   void _modifyHeader(String key) {
     setState(() {
@@ -34,18 +49,26 @@ class _AddScreenState extends State<AddScreen> {
     BuildContext ctx,
   ) async {
     try {
-      final userProvider = Provider.of<UserLocal>(context, listen: false);
-      Navigator.of(context).pop();
-      dynamic result = _db.addExpense(
-        userProvider.uid,
-        Expense(
-          category: _categoryKey,
-          date: date,
-          description: description,
-          price: price,
-          title: title,
-        ),
+      Expense expense = Expense(
+        category: _categoryKey,
+        date: date,
+        description: description,
+        price: price,
+        title: title,
       );
+      final userProvider = Provider.of<UserLocal>(context, listen: false);
+      dynamic result;
+      if (_id == "") {
+        result = _db.addExpense(
+          userProvider.uid,
+          expense,
+        );
+      } else
+        result = _db.updateExpense(
+          userProvider.uid,
+          _id,
+          expense,
+        );
       return result;
     } catch (e) {
       print(e.toString());
@@ -63,10 +86,13 @@ class _AddScreenState extends State<AddScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              CategoryHeaderImage(
-                _categoryKey,
-                Categories.categories[_categoryKey].icon,
-                Categories.categories[_categoryKey].linearGradient,
+              Hero(
+                tag: _id,
+                child: CategoryHeaderImage(
+                  _categoryKey,
+                  Categories.categories[_categoryKey].icon,
+                  Categories.categories[_categoryKey].linearGradient,
+                ),
               ),
               SizedBox(
                 height: ScreenUtil().setHeight(30),
@@ -78,8 +104,14 @@ class _AddScreenState extends State<AddScreen> {
                 ),
                 width: double.infinity,
                 child: DetailsForm(
-                  _addProduct,
+                  widget._expense != null ? widget._expense.title : null,
+                  widget._expense != null ? widget._expense.description : null,
+                  widget._expense != null ? widget._expense.price : null,
+                  widget._expense != null
+                      ? widget._expense.date
+                      : DateTime.now(),
                   _formController,
+                  _addProduct,
                 ),
               ),
             ],
@@ -96,7 +128,8 @@ class _AddScreenState extends State<AddScreen> {
       child: FittedBox(
         child: FloatingActionButton(
           onPressed: () async {
-            await _formController.submitForm();
+            dynamic result = await _formController.submitForm();
+            if (result != null) Navigator.of(context).pop();
           },
           child: Icon(
             Icons.check,

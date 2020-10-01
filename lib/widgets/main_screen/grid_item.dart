@@ -2,7 +2,6 @@ import 'package:ExpensesApp/config/constants.dart';
 import 'package:ExpensesApp/config/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 class GridItem extends StatelessWidget {
@@ -12,6 +11,10 @@ class GridItem extends StatelessWidget {
   final double _price;
   final DateTime _date;
   final String _categoryName;
+  final f = NumberFormat.compactCurrency(
+    decimalDigits: 2,
+    symbol: '',
+  );
   GridItem(
     this._id,
     this._title,
@@ -30,7 +33,10 @@ class GridItem extends StatelessWidget {
       elevation: 3,
       child: Column(
         children: [
-          _buildHeader(),
+          Hero(
+            tag: _id,
+            child: _buildHeader(),
+          ),
           SizedBox(
             height: ScreenUtil().setHeight(10),
           ),
@@ -46,6 +52,7 @@ class GridItem extends StatelessWidget {
   }
 
   Padding _buildBottom() {
+    var price = NumberFormat.compact().format(_price);
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: ScreenUtil().setHeight(5),
@@ -55,7 +62,7 @@ class GridItem extends StatelessWidget {
         children: [
           _buildColumnBottom(
             "PRICE:",
-            "$_price RON",
+            "$price RON",
           ),
           _buildColumnBottom(
             "DATE:",

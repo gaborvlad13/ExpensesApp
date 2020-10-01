@@ -29,10 +29,10 @@ class Delegate extends SliverPersistentHeaderDelegate {
             text: "Total",
           ),
           Tab(
-            text: "Week",
+            text: "Weekly",
           ),
           Tab(
-            text: "Month",
+            text: "Monthly",
           ),
           Tab(
             text: "Date pick",
