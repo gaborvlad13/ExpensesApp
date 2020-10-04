@@ -37,6 +37,10 @@ class AuthService with ChangeNotifier {
     return userCredential.user;
   }
 
+  Future signOut() async {
+    await _auth.signOut();
+  }
+
   // google sign in
   Future googleSignIn() async {
     try {

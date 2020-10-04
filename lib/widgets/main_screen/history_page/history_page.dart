@@ -1,9 +1,12 @@
+import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/models/expense.dart';
 import 'package:ExpensesApp/models/user_local.dart';
 import 'package:ExpensesApp/providers/database.dart';
-import 'package:ExpensesApp/widgets/main_screen/enums.dart';
-import 'package:ExpensesApp/widgets/main_screen/grid_manager.dart';
-import 'package:ExpensesApp/widgets/main_screen/history_sliver_header.dart';
+import 'package:ExpensesApp/widgets/main_screen/history_page/enums.dart';
+import 'package:ExpensesApp/widgets/main_screen/history_page/grid_manager.dart';
+import 'package:ExpensesApp/widgets/main_screen/history_page/history_sliver_header.dart';
+import 'package:ExpensesApp/widgets/main_screen/history_page/sliver_app_bar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:provider/provider.dart';
@@ -15,11 +18,12 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   String _val;
-  SearchType _searchType = SearchType.Description;
+  SearchType _searchType = SearchType.Title;
   TextEditingController _searchController = TextEditingController();
+  FocusNode _focusNode = FocusNode();
+  List<Expense> _expenses;
 
   _onChangedListener() {
-    //print(_searchController.text);
     setState(() {
       _val = _searchController.text;
     });
@@ -28,12 +32,18 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     _searchController.addListener(_onChangedListener);
-
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    _expenses = Provider.of<List<Expense>>(context);
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
+    _focusNode.dispose();
     _searchController.removeListener(_onChangedListener);
     _searchController.dispose();
     super.dispose();
@@ -41,48 +51,22 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<List<Expense>>(context);
     return DefaultTabController(
       length: 4,
       child: CustomScrollView(
         physics: BouncingScrollPhysics(),
         slivers: [
-          SliverAppBar(
-            title: buildTextField(),
-            //leading: Icon(Icons.meu),
+          SliverAppBarWidget(
+            _focusNode,
+            _searchController,
           ),
           HistorySliverHeader(),
           GridManager(
-            provider,
+            _expenses,
             _val,
             _searchType,
           ),
         ],
-      ),
-    );
-  }
-
-  TextField buildTextField() {
-    var outlineInputBorder = OutlineInputBorder(
-      // borderRadius: BorderRadius.circular(100),
-      borderSide: BorderSide(color: Colors.transparent),
-      gapPadding: 10,
-    );
-    return TextField(
-      controller: _searchController,
-      decoration: InputDecoration(
-        hintText: "Search something",
-        hintStyle: TextStyle(
-          color: Colors.grey,
-          fontSize: ScreenUtil().setSp(15),
-        ),
-        border: outlineInputBorder,
-        focusedBorder: outlineInputBorder,
-        enabledBorder: outlineInputBorder,
-        icon: Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Icon(Icons.menu),
-        ),
       ),
     );
   }

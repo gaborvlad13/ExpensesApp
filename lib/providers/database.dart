@@ -6,11 +6,7 @@ class Database with ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future addExpense(String uid, Expense expense) async {
-    var result = await _firestore
-        .collection("userData")
-        .doc(uid)
-        .collection("expenses")
-        .add(
+    await _firestore.collection("userData").doc(uid).collection("expenses").add(
       {
         'title': expense.title,
         'description': expense.description,
@@ -21,7 +17,7 @@ class Database with ChangeNotifier {
       },
     );
 
-    return result.id;
+    return true;
   }
 
   Future deleteExpense(String uid, String expenseId) async {

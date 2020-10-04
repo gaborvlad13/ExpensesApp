@@ -12,7 +12,6 @@ import 'grid_item.dart';
 
 class GridBuilder extends StatelessWidget {
   final List<Expense> _list;
-  //List<Expense> _listToBuild;
   final _db = Database();
   GridBuilder(this._list);
 

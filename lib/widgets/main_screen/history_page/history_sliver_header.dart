@@ -26,43 +26,18 @@ class Delegate extends SliverPersistentHeaderDelegate {
         ),
         tabs: [
           Tab(
-            text: "Total",
+            text: "All time",
           ),
           Tab(
-            text: "Weekly",
+            text: "7 days",
           ),
           Tab(
-            text: "Monthly",
+            text: "30 days",
           ),
           Tab(
-            text: "Date pick",
+            text: "Date interval",
           ),
         ],
-      ),
-    );
-  }
-
-  TextField buildTextField() {
-    var outlineInputBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(100),
-      borderSide: BorderSide(color: Colors.transparent),
-      gapPadding: 10,
-    );
-    return TextField(
-      decoration: InputDecoration(
-        hintText: "Search something",
-        hintStyle: TextStyle(
-          color: Colors.grey,
-          fontSize: ScreenUtil().setSp(15),
-        ),
-        border: outlineInputBorder,
-        focusedBorder: outlineInputBorder,
-        enabledBorder: outlineInputBorder,
-        suffixIcon: Icon(Icons.filter_list),
-        icon: Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Icon(Icons.search),
-        ),
       ),
     );
   }

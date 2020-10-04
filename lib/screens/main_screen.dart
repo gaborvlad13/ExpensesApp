@@ -1,13 +1,13 @@
-import 'package:ExpensesApp/models/category.dart';
 import 'package:ExpensesApp/models/expense.dart';
 import 'package:ExpensesApp/models/user_local.dart';
 import 'package:ExpensesApp/providers/database.dart';
 import 'package:ExpensesApp/screens/add_screen.dart';
-import 'package:ExpensesApp/widgets/main_screen/tab_item.dart';
+import 'package:ExpensesApp/widgets/main_screen/history_page/history_page.dart';
+import 'package:ExpensesApp/widgets/main_screen/history_page/tab_item.dart';
+import 'package:ExpensesApp/widgets/main_screen/stats_page/stats_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../widgets/main_screen/pages/history_page.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/main-screen';
@@ -23,34 +23,18 @@ class _MainScreenState extends State<MainScreen> {
   bool _loaded = false;
   @override
   void didChangeDependencies() {
-    if (!_loaded) {
-      _pages = [
-        StreamProvider<List<Expense>>.value(
-          initialData: [
-            Expense(
-              id: "initial",
-              category: "",
-              date: DateTime.now(),
-              description: "",
-              price: 0.00,
-              title: "",
-            ),
-          ],
-          value: Database().getExpenses(Provider.of<UserLocal>(context).uid),
-          child: HistoryPage(),
-        ),
-        Container(
-          child: Text("test"),
-        ),
-        Container(
-          child: Text("test"),
-        ),
-        Container(
-          child: Text("test"),
-        ),
-      ];
-      _loaded = true;
-    }
+    _pages = [
+      HistoryPage(),
+      StatsPage(),
+      Container(
+        child: Text("test"),
+      ),
+      Container(
+        child: Text("test"),
+      ),
+    ];
+    _loaded = true;
+
     super.didChangeDependencies();
   }
 
@@ -62,6 +46,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: _pages[_selectedPosition],
         floatingActionButton: Container(
           height: ScreenUtil().setWidth(60),
@@ -137,26 +122,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-/*class MainScreen extends StatelessWidget {
-  static const routeName = "/main_screen";
-  @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<List<Expense>>(context);
-    return provider != null
-        ? Scaffold(
-            body: ListView.builder(
-            itemBuilder: (context, index) {
-              return Row(
-                children: [
-                  GestureDetector(
-                    onTap: Database().test,
-                    child: Text(provider[index].date.toIso8601String()),
-                  ),
-                ],
-              );
-            },
-            itemCount: provider.length,
-          ))
-        : CircularProgressIndicator();
-  }
-}*/

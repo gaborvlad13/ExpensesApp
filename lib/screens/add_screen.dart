@@ -49,6 +49,7 @@ class _AddScreenState extends State<AddScreen> {
     BuildContext ctx,
   ) async {
     try {
+      print("intra aicea");
       Expense expense = Expense(
         category: _categoryKey,
         date: date,
@@ -57,19 +58,19 @@ class _AddScreenState extends State<AddScreen> {
         title: title,
       );
       final userProvider = Provider.of<UserLocal>(context, listen: false);
-      dynamic result;
+
       if (_id == "") {
-        result = _db.addExpense(
+        _db.addExpense(
           userProvider.uid,
           expense,
         );
       } else
-        result = _db.updateExpense(
+        _db.updateExpense(
           userProvider.uid,
           _id,
           expense,
         );
-      return result;
+      return true;
     } catch (e) {
       print(e.toString());
       return null;
@@ -78,7 +79,6 @@ class _AddScreenState extends State<AddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("build add form");
     return SafeArea(
       child: Scaffold(
         floatingActionButton: buildFloatingActionButton(),

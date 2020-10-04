@@ -1,4 +1,5 @@
 import 'package:ExpensesApp/screens/main_screen.dart';
+import 'package:ExpensesApp/screens/wrapper.dart';
 import 'login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -130,7 +131,7 @@ class _AccountFormState extends State<AccountForm>
               print(widget._authForm);
               print(result);
               if (result != null)
-                Navigator.pushNamed(context, MainScreen.routeName);
+                Navigator.pushReplacementNamed(context, Wrapper.routeName);
             },
             text: widget._authForm == AuthForm.Login
                 ? 'Sign in with Email'

@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           MainScreen.routeName: (context) => MainScreen(),
+          Wrapper.routeName: (context) => Wrapper(),
         },
       ),
     );

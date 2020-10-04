@@ -1,16 +1,8 @@
-import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/models/expense.dart';
-import 'package:ExpensesApp/models/user_local.dart';
-import 'package:ExpensesApp/screens/add_screen.dart';
-import 'package:ExpensesApp/widgets/main_screen/enums.dart';
-import 'package:ExpensesApp/widgets/main_screen/grid_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:focused_menu/focused_menu.dart';
-import 'package:focused_menu/modals.dart';
-import 'package:provider/provider.dart';
-
-import 'grid_item.dart';
+import 'enums.dart';
+import 'grid_builder.dart';
 
 class GridManager extends StatelessWidget {
   final List<Expense> _list;
