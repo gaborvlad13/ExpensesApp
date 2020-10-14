@@ -5,15 +5,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class CategoryHeaderImage extends StatelessWidget {
   final String _title;
   final IconData _icon;
-  final LinearGradient _linearGradient;
-  CategoryHeaderImage(this._title, this._icon, this._linearGradient);
+  final Color _color;
+  CategoryHeaderImage(this._title, this._icon, this._color);
   @override
   Widget build(BuildContext context) {
     return Container(
       height: ScreenUtil().setHeight(200),
       width: double.infinity,
       decoration: BoxDecoration(
-        gradient: _linearGradient,
+        color: _color,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.black54,

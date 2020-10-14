@@ -64,7 +64,6 @@ class _HistoryPageState extends State<HistoryPage> {
           GridManager(
             _expenses,
             _val,
-            _searchType,
           ),
         ],
       ),

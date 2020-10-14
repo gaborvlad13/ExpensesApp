@@ -22,29 +22,31 @@ class GridBuilder extends StatelessWidget {
         horizontal: ScreenUtil().setWidth(10),
         vertical: ScreenUtil().setHeight(10),
       ),
-      sliver: SliverGrid(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return AnimationConfiguration.staggeredGrid(
-              position: index,
-              duration: const Duration(milliseconds: 375),
-              columnCount: 2,
-              child: ScaleAnimation(
-                child: buildFocusedMenuHolder(
-                  context,
-                  _list,
-                  index,
+      sliver: AnimationLimiter(
+        child: SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return AnimationConfiguration.staggeredGrid(
+                position: index,
+                duration: const Duration(milliseconds: 375),
+                columnCount: 2,
+                child: ScaleAnimation(
+                  child: buildFocusedMenuHolder(
+                    context,
+                    _list,
+                    index,
+                  ),
                 ),
-              ),
-            );
-          },
-          childCount: _list.length,
-        ),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 4 / 5,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
+              );
+            },
+            childCount: _list.length,
+          ),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 4 / 5,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+          ),
         ),
       ),
     );

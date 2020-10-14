@@ -10,22 +10,22 @@ class Categories {
     'food': Category(
       name: "food",
       icon: FontAwesomeIcons.hamburger,
-      linearGradient: kFoodGradient,
+      color: kFoodGradient,
     ),
     'clothes': Category(
       name: "clothes",
       icon: FontAwesomeIcons.tshirt,
-      linearGradient: kClothesGradient,
+      color: kClothesGradient,
     ),
     'transportation': Category(
       name: "transportation",
       icon: FontAwesomeIcons.bus,
-      linearGradient: kTransportation,
+      color: kTransportation,
     ),
     'education': Category(
       name: "education",
       icon: FontAwesomeIcons.school,
-      linearGradient: kEducation,
+      color: kEducation,
     ),
   };
 }

@@ -11,10 +11,7 @@ class GridItem extends StatelessWidget {
   final double _price;
   final DateTime _date;
   final String _categoryName;
-  final f = NumberFormat.compactCurrency(
-    decimalDigits: 2,
-    symbol: '',
-  );
+  final _numberFormatter = NumberFormat.compact();
   GridItem(
     this._id,
     this._title,
@@ -52,7 +49,7 @@ class GridItem extends StatelessWidget {
   }
 
   Padding _buildBottom() {
-    var price = NumberFormat.compact().format(_price);
+    var price = _numberFormatter.format(_price);
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: ScreenUtil().setHeight(5),
@@ -82,7 +79,7 @@ class GridItem extends StatelessWidget {
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),
         ),
-        gradient: Categories.categories[_categoryName].linearGradient,
+        color: Categories.categories[_categoryName].color,
       ),
       child: Icon(
         Categories.categories[_categoryName].icon,

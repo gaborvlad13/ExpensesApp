@@ -40,7 +40,7 @@ class CategoryHeaderList extends StatelessWidget {
             width: ScreenUtil().setWidth(100),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              gradient: category.linearGradient,
+              color: category.color,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

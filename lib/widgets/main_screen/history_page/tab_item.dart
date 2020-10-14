@@ -17,30 +17,34 @@ class TabItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(15),
+        horizontal: ScreenUtil().setWidth(10),
         vertical: ScreenUtil().setHeight(5),
       ),
       child: GestureDetector(
         onTap: pressed,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: isSelected ? kPrimaryColor : Colors.grey,
-              size: ScreenUtil().setSp(25),
-            ),
-            SizedBox(
-              height: ScreenUtil().setHeight(2),
-            ),
-            Text(
-              text,
-              style: TextStyle(
+        child: Container(
+          color: Colors.transparent,
+          width: ScreenUtil().setWidth(50),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
                 color: isSelected ? kPrimaryColor : Colors.grey,
-                fontSize: ScreenUtil().setSp(13),
+                size: ScreenUtil().setSp(25),
               ),
-            ),
-          ],
+              SizedBox(
+                height: ScreenUtil().setHeight(2),
+              ),
+              Text(
+                text,
+                style: TextStyle(
+                  color: isSelected ? kPrimaryColor : Colors.grey,
+                  fontSize: ScreenUtil().setSp(13),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

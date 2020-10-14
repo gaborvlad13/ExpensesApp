@@ -7,8 +7,7 @@ import 'grid_builder.dart';
 class GridManager extends StatelessWidget {
   final List<Expense> _list;
   final String _val;
-  final SearchType _searchType;
-  GridManager(this._list, this._val, this._searchType);
+  GridManager(this._list, this._val);
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +38,12 @@ class GridManager extends StatelessWidget {
         ),
       );
     } else {
-      //print(_val);
       if (_val != null) {
         List<Expense> listAux;
-        if (_searchType == SearchType.Title)
-          listAux =
-              _list.where((element) => element.title.contains(_val)).toList();
-        else if (_searchType == SearchType.Description)
-          listAux = _list
-              .where((element) => element.description.contains(_val))
-              .toList();
+        listAux = _list
+            .where((element) =>
+                element.title.toLowerCase().contains(_val.toLowerCase()))
+            .toList();
         return GridBuilder(listAux);
       }
       return GridBuilder(_list);

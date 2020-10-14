@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class Category {
   final String name;
   final IconData icon;
-  final LinearGradient linearGradient;
+  final Color color;
 
   const Category({
     this.name,
     this.icon,
-    this.linearGradient,
+    this.color,
   });
 }
