@@ -34,11 +34,13 @@ class _StatsPageState extends State<StatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBarWidget(_changeFilter),
-        StatsManager(_expenses, DateTime.utc(1989, 11, 9), DateTime.now()),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          AppBarWidget(_changeFilter),
+          StatsManager(_expenses, DateTime.utc(1989, 11, 9), DateTime.now()),
+        ],
+      ),
     );
   }
 }

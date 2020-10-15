@@ -60,7 +60,7 @@ class StatsManager extends StatelessWidget {
               _statsList[indexes[element.category]].total + element.price;
         }
       });
-      return StatsBody(_statsList);
+      return StatsBody(_statsList, _list);
     }
   }
 }

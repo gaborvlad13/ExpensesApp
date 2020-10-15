@@ -1,30 +1,51 @@
+import 'dart:math';
+
 import 'package:ExpensesApp/config/constants.dart';
+import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/models/expense.dart';
 import 'package:ExpensesApp/models/expense_dto.dart';
+import 'package:ExpensesApp/widgets/main_screen/stats_page/time_series_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'category_presentation.dart';
 import 'indicator.dart';
 
 class StatsBody extends StatefulWidget {
   final List<ExpenseDTO> _expenses;
-  StatsBody(this._expenses);
+  final List<Expense> _expensesChart;
+  StatsBody(this._expenses, this._expensesChart);
   @override
   _StatsBodyState createState() => _StatsBodyState();
 }
 
 @override
 class _StatsBodyState extends State<StatsBody> {
-  int touchedIndex;
+  int touchedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    List<Expense> aux = new List<Expense>();
+    widget._expensesChart.forEach((element) {
+      aux.add(
+        new Expense(
+            category: element.category,
+            date: element.date,
+            description: element.description,
+            id: element.id,
+            price: element.price,
+            title: element.title),
+      );
+    });
+    aux.sort((x, y) => x.date.compareTo(y.date));
+
+    //widget._expensesChart.sort((x, y) => x.date.compareTo(y.date));
     return Column(
       children: [
         Card(
-          elevation: 2,
+          elevation: 1,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -34,13 +55,6 @@ class _StatsBodyState extends State<StatsBody> {
                 width: ScreenUtil().setWidth(250),
                 child: PieChart(
                   PieChartData(
-                      pieTouchData:
-                          PieTouchData(touchCallback: (pieTouchResponse) {
-                        setState(() {
-                          if (pieTouchResponse.touchInput is FlPanStart)
-                            touchedIndex = pieTouchResponse.touchedSectionIndex;
-                        });
-                      }),
                       borderData: FlBorderData(
                         show: false,
                       ),
@@ -81,9 +95,9 @@ class _StatsBodyState extends State<StatsBody> {
           ),
         ),
         Card(
-          elevation: 2,
+          elevation: 1,
           child: Container(
-            height: ScreenUtil().setHeight(100),
+            height: ScreenUtil().setHeight(90),
             width: double.infinity,
             child: touchedIndex != null &&
                     touchedIndex >= 0 &&
@@ -102,6 +116,27 @@ class _StatsBodyState extends State<StatsBody> {
                     ),
                   )
                 : _buildNotSelected(),
+          ),
+        ),
+        Card(
+          elevation: 1,
+          child: Container(
+            height: 190,
+            child: SfCartesianChart(
+              tooltipBehavior: TooltipBehavior(
+                  enable: true, header: 'Total', canShowMarker: false),
+              series: <ChartSeries>[
+                ColumnSeries<ExpenseDTO, String>(
+                  pointColorMapper: (ExpenseDTO expense, _) =>
+                      Categories.categories[expense.name].color,
+                  enableTooltip: true,
+                  dataSource: widget._expenses,
+                  xValueMapper: (ExpenseDTO expense, _) => expense.name,
+                  yValueMapper: (ExpenseDTO expense, _) => expense.total,
+                )
+              ],
+              primaryXAxis: CategoryAxis(),
+            ),
           ),
         ),
       ],
