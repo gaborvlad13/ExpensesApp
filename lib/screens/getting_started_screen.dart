@@ -102,7 +102,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                         ),
                       );
                     },
-                    text: 'Getting started',
+                    text: 'Get started',
                   ),
                 ],
               ),

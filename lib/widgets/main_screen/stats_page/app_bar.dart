@@ -8,12 +8,15 @@ class AppBarWidget extends StatelessWidget {
   AppBarWidget(this._changeFilter);
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: _buildTitleWidget(),
-      elevation: 1,
-      actions: [
-        _buildPopupMenu(),
-      ],
+    return Container(
+      height: ScreenUtil().setHeight(50),
+      child: AppBar(
+        title: _buildTitleWidget(),
+        elevation: 1,
+        actions: [
+          _buildPopupMenu(),
+        ],
+      ),
     );
   }
 
@@ -47,8 +50,8 @@ class AppBarWidget extends StatelessWidget {
                 child: Text('Pick two dates'),
               ),
             ],
-        onSelected: (FilterType value) {
-          _changeFilter(value);
+        onSelected: (FilterType value) async {
+          await _changeFilter(value);
         });
   }
 }

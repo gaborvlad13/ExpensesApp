@@ -26,41 +26,40 @@ class StatsManager extends StatelessWidget {
       },
     );
     if (_list == null || _list.length == 0) {
-      return SliverToBoxAdapter(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: ScreenUtil().setHeight(30),
-            horizontal: ScreenUtil().setWidth(15),
-          ),
-          child: Text(
-            "Start adding some expenses.",
-            style: TextStyle(
-              fontSize: ScreenUtil().setSp(32),
-              color: Colors.grey[300],
-            ),
+      return Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: ScreenUtil().setHeight(30),
+          horizontal: ScreenUtil().setWidth(15),
+        ),
+        child: Text(
+          "Start adding some expenses.",
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(32),
+            color: Colors.grey[300],
           ),
         ),
       );
     } else if (_list[0].id == "initial") {
-      return SliverToBoxAdapter(
-        child: SizedBox(
-          height: ScreenUtil.screenHeight,
-          width: ScreenUtil.screenWidth,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
+      return SizedBox(
+        height: ScreenUtil.screenHeight,
+        width: ScreenUtil.screenWidth,
+        child: Center(
+          child: CircularProgressIndicator(),
         ),
       );
     } else {
       _list.forEach((element) {
         var date = element.date;
-        if (date.isAfter(dateTimeFirst) && date.isBefore(dateTimeSecond)) {
+        if ((date.isAfter(dateTimeFirst) ||
+                date.isAtSameMomentAs(dateTimeFirst)) &&
+            (date.isAtSameMomentAs(dateTimeSecond) ||
+                date.isBefore(dateTimeSecond))) {
           _statsList[indexes[element.category]].expenses.add(element);
           _statsList[indexes[element.category]].total =
               _statsList[indexes[element.category]].total + element.price;
         }
       });
-      return StatsBody(_statsList, _list);
+      return StatsBody(_statsList);
     }
   }
 }

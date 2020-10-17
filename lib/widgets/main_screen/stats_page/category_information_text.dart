@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:intl/intl.dart';
 
-class CategoryInformation extends StatelessWidget {
+class CategoryInformationText extends StatelessWidget {
   final double _totalPrice;
   final Expense _mostExpensive;
   final Expense _leastExpensive;
   final Expense _mostRecent;
   final _numberFormatter = NumberFormat.compact();
 
-  CategoryInformation(
+  CategoryInformationText(
     this._totalPrice,
     this._mostExpensive,
     this._leastExpensive,

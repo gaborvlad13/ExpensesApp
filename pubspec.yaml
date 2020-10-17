@@ -35,9 +35,8 @@ dependencies:
   flutter_facebook_login: ^3.0.0
   focused_menu: ^1.0.1
   flutter_staggered_animations: "^0.1.2"
-  fl_chart: ^0.11.1
   syncfusion_flutter_charts: ^18.3.40
-  charts_flutter: ^0.9.0
+  date_range_picker: ^1.0.5
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
@@ -60,6 +59,12 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/image1.jpg
+    - assets/images/first_presentation.jpg
+    - assets/images/stats.png
+    - assets/images/stats2.png
+    - assets/images/category.png
+    - assets/images/moneys.png
+    - assets/images/diagram.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

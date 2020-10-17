@@ -8,7 +8,6 @@ class SlideItem extends StatelessWidget {
   SlideItem(this.index);
   final sliderController = SliderController();
 
-  
   @override
   Widget build(BuildContext context) {
     return Column(

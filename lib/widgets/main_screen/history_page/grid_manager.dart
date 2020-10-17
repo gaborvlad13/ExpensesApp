@@ -1,7 +1,6 @@
 import 'package:ExpensesApp/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'enums.dart';
 import 'grid_builder.dart';
 
 class GridManager extends StatelessWidget {

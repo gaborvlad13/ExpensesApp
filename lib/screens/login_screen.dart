@@ -167,31 +167,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: ScreenUtil().setHeight(25),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SocialIcon(
-                        color: kGoogleColor,
-                        icon: FontAwesomeIcons.google,
-                        press: () async {
-                          dynamic result = await _googleSignIn();
-                          if (result != null)
-                            Navigator.pushNamed(context, MainScreen.routeName);
-                        },
-                      ),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(30),
-                      ),
-                      SocialIcon(
-                        color: kFacebookColor,
-                        icon: FontAwesomeIcons.facebook,
-                        press: () async {
-                          dynamic result = await _facebookSignIn();
-                          if (result != null)
-                            Navigator.pushNamed(context, MainScreen.routeName);
-                        },
-                      ),
-                    ],
+                  SocialIcon(
+                    color: kGoogleColor,
+                    icon: FontAwesomeIcons.google,
+                    press: () async {
+                      dynamic result = await _googleSignIn();
+                      if (result != null)
+                        Navigator.pushNamed(context, MainScreen.routeName);
+                    },
                   ),
                 ],
               ],

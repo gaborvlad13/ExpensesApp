@@ -18,7 +18,6 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   String _val;
-  SearchType _searchType = SearchType.Title;
   TextEditingController _searchController = TextEditingController();
   FocusNode _focusNode = FocusNode();
   List<Expense> _expenses;
