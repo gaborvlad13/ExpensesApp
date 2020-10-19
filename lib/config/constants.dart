@@ -22,10 +22,25 @@ class Categories {
       icon: FontAwesomeIcons.bus,
       color: kTransportation,
     ),
+    'recreational': Category(
+      name: "recreational",
+      icon: FontAwesomeIcons.cannabis,
+      color: kRecreational,
+    ),
     'education': Category(
       name: "education",
-      icon: FontAwesomeIcons.school,
+      icon: FontAwesomeIcons.book,
       color: kEducation,
+    ),
+    'entertainment': Category(
+      name: "entertainment",
+      icon: FontAwesomeIcons.gamepad,
+      color: kEntertainment,
+    ),
+    'other': Category(
+      name: "other",
+      icon: FontAwesomeIcons.dollarSign,
+      color: kOther,
     ),
   };
 }

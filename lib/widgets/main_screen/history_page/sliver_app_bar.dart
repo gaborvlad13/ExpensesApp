@@ -50,6 +50,7 @@ class _SliverAppBarWidgetState extends State<SliverAppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      pinned: true,
       actions: [
         IconButton(
           onPressed: _setStateAppBar,

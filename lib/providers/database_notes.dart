@@ -1,18 +1,15 @@
-import 'package:ExpensesApp/models/expense.dart';
+import 'package:ExpensesApp/models/note.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
-class Database {
+class DatabaseNotes {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future addExpense(String uid, Expense expense) async {
-    await _firestore.collection("userData").doc(uid).collection("expenses").add(
+  Future addNote(String uid, Note note) async {
+    await _firestore.collection("userData").doc(uid).collection("notes").add(
       {
-        'title': expense.title,
-        'description': expense.description,
-        'price': expense.price,
-        'date': Timestamp.fromDate(expense.date),
-        'category': expense.category,
+        'title': note.title,
+        'content': note.content,
         'dateAddedInApp': Timestamp.fromDate(DateTime.now()),
       },
     );
@@ -20,7 +17,7 @@ class Database {
     return true;
   }
 
-  Future deleteExpense(String uid, String expenseId) async {
+  /*Future deleteExpense(String uid, String expenseId) async {
     var result = await _firestore
         .collection("userData")
         .doc(uid)
@@ -44,29 +41,29 @@ class Database {
       'category': expense.category,
     });
     return true;
-  }
+  }*/
 
-  List<Expense> _expenseListFromSnapshot(QuerySnapshot snapshot) {
+  List<Note> _noteListFromSnapshot(QuerySnapshot snapshot) {
     try {
-      return snapshot.docs.map((e) => Expense.fromFirestore(e)).toList();
+      return snapshot.docs.map((n) => Note.fromFirestore(n)).toList();
     } catch (e) {
       print(e.toString());
       return null;
     }
   }
 
-  Stream<List<Expense>> getExpenses(String uid) {
+  Stream<List<Note>> getNotes(String uid) {
     try {
       final reference = _firestore
           .collection("userData")
           .doc(uid)
-          .collection("expenses")
+          .collection("notes")
           .orderBy(
             "dateAddedInApp",
             descending: true,
           );
       final snapshots = reference.snapshots();
-      return snapshots.map((_expenseListFromSnapshot));
+      return snapshots.map((_noteListFromSnapshot));
     } catch (e) {
       print(e.toString());
       return null;

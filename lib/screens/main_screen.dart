@@ -4,6 +4,8 @@ import 'package:ExpensesApp/providers/database.dart';
 import 'package:ExpensesApp/screens/add_screen.dart';
 import 'package:ExpensesApp/widgets/main_screen/history_page/history_page.dart';
 import 'package:ExpensesApp/widgets/main_screen/history_page/tab_item.dart';
+import 'package:ExpensesApp/widgets/main_screen/notes_page/notes_manager.dart';
+import 'package:ExpensesApp/widgets/main_screen/notes_page/notes_page.dart';
 import 'package:ExpensesApp/widgets/main_screen/stats_page/stats_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,22 +20,17 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedPosition = 0;
-  final _tabs = ["Home", "Stats", "Ceva", "Settings"];
   var _pages;
-  bool _loaded = false;
   @override
   void didChangeDependencies() {
     _pages = [
       HistoryPage(),
       StatsPage(),
-      Container(
-        child: Text("test"),
-      ),
+      NotesPage(),
       Container(
         child: Text("test"),
       ),
     ];
-    _loaded = true;
 
     super.didChangeDependencies();
   }
@@ -105,8 +102,8 @@ class _MainScreenState extends State<MainScreen> {
               width: 40,
             ),
             TabItem(
-              icon: Icons.restaurant_menu,
-              text: "Ceva",
+              icon: Icons.note,
+              text: "Notes",
               isSelected: _selectedPosition == 2,
               pressed: () => _changePosition(2),
             ),

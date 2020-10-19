@@ -14,7 +14,7 @@ class CategoryPresentation extends StatelessWidget {
     return Card(
       elevation: 2,
       child: Container(
-          height: ScreenUtil().setHeight(90),
+          height: ScreenUtil().setHeight(100),
           width: double.infinity,
           child: Row(
             children: [

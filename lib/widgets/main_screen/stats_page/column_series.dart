@@ -2,6 +2,7 @@ import 'package:ExpensesApp/config/constants.dart';
 import 'package:ExpensesApp/models/expense_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ColumnSeriesWidget extends StatelessWidget {
@@ -15,9 +16,13 @@ class ColumnSeriesWidget extends StatelessWidget {
         height: ScreenUtil().setHeight(190),
         child: SfCartesianChart(
           tooltipBehavior: TooltipBehavior(
-              enable: true, header: 'Total', canShowMarker: false),
+            enable: true,
+            header: 'Total',
+            canShowMarker: true,
+          ),
           series: <ChartSeries>[
             ColumnSeries<ExpenseDTO, String>(
+              animationDuration: 500,
               pointColorMapper: (ExpenseDTO expense, _) =>
                   Categories.categories[expense.name].color,
               enableTooltip: true,
@@ -27,7 +32,8 @@ class ColumnSeriesWidget extends StatelessWidget {
               yValueMapper: (ExpenseDTO expense, _) => expense.total,
             )
           ],
-          primaryXAxis: CategoryAxis(),
+          primaryXAxis: CategoryAxis(
+              labelIntersectAction: AxisLabelIntersectAction.multipleRows),
         ),
       ),
     );

@@ -15,16 +15,7 @@ class StatsManager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _statsList = new List<ExpenseDTO>();
-    var indexes = new Map<String, int>();
-    int i = 0;
-    Categories.categories.forEach(
-      (key, value) {
-        _statsList.add(
-            new ExpenseDTO(expenses: new List<Expense>(), name: key, total: 0));
-        indexes.putIfAbsent(key, () => i);
-        i++;
-      },
-    );
+    double total = 0;
     if (_list == null || _list.length == 0) {
       return Padding(
         padding: EdgeInsets.symmetric(
@@ -54,12 +45,43 @@ class StatsManager extends StatelessWidget {
                 date.isAtSameMomentAs(dateTimeFirst)) &&
             (date.isAtSameMomentAs(dateTimeSecond) ||
                 date.isBefore(dateTimeSecond))) {
-          _statsList[indexes[element.category]].expenses.add(element);
-          _statsList[indexes[element.category]].total =
-              _statsList[indexes[element.category]].total + element.price;
+          int index = _checkIndexElement(_statsList, element.category);
+          if (index == -1) {
+            List<Expense> expenses = new List();
+            expenses.add(element);
+            _statsList.add(
+              ExpenseDTO(
+                  name: element.category,
+                  expenses: expenses,
+                  percent: 0,
+                  total: element.price),
+            );
+          } else {
+            _statsList[index].expenses.add(element);
+            _statsList[index].total = _statsList[index].total + element.price;
+          }
         }
       });
+      _statsList.forEach((element) {
+        total += element.total;
+      });
+      _statsList.forEach((element) {
+        element.percent = _calculatePercent(element.total, total);
+      });
+      print(_statsList.length);
       return StatsBody(_statsList);
     }
+  }
+
+  int _calculatePercent(double value, double total) {
+    if (total == 0) return 0;
+    return ((value / total) * 100).round();
+  }
+
+  int _checkIndexElement(List<ExpenseDTO> statsList, String elementCategory) {
+    for (int i = 0; i < statsList.length; i++) {
+      if (statsList[i].name == elementCategory) return i;
+    }
+    return -1;
   }
 }

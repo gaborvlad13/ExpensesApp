@@ -6,8 +6,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Pie extends StatefulWidget {
   final List<ExpenseDTO> _expenses;
-  final int _touchIndex;
-  Pie(this._expenses, this._touchIndex);
+
+  Pie(this._expenses);
 
   @override
   _PieState createState() => _PieState();
@@ -17,13 +17,24 @@ class _PieState extends State<Pie> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenUtil().setWidth(250),
       child: SfCircularChart(
         series: <CircularSeries>[
           PieSeries<ExpenseDTO, String>(
+            enableSmartLabels: true,
+            animationDuration: 500,
             pointColorMapper: (ExpenseDTO expense, _) =>
                 Categories.categories[expense.name].color,
             dataSource: widget._expenses,
+            dataLabelMapper: (ExpenseDTO data, _) => "${data.percent}%",
+            dataLabelSettings: DataLabelSettings(
+              textStyle: TextStyle(
+                fontSize: ScreenUtil().setSp(15),
+                color: Colors.white,
+              ),
+              isVisible: true,
+              labelPosition: ChartDataLabelPosition.outside,
+              useSeriesColor: true,
+            ),
             xValueMapper: (ExpenseDTO data, _) => data.name,
             yValueMapper: (ExpenseDTO data, _) => data.total,
             explode: false,

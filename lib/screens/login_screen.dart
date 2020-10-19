@@ -2,6 +2,8 @@ import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/providers/auth_service.dart';
 import 'package:ExpensesApp/screens/main_screen.dart';
 import 'package:ExpensesApp/providers/auth_service.dart';
+import 'package:ExpensesApp/widgets/login_screen/login_errors.dart';
+import 'package:ExpensesApp/widgets/login_screen/register_errors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,10 +24,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthService _auth = AuthService();
   var _authForm = AuthForm.Login;
 
-  Future _submitAuthFormRegister(String email, String password) async {
-    dynamic authResult =
-        await _auth.registerWithEmailAndPassword(email, password);
-    return authResult;
+  Future _submitAuthFormRegister(
+      String email, String password, BuildContext ctx) async {
+    try {
+      print("aiceeeeeea");
+      dynamic authResult =
+          await _auth.registerWithEmailAndPassword(email, password);
+      if (!authResult.isSuccesful()) throw authResult.getException();
+      return authResult;
+    } catch (e) {
+      print(e.toString());
+      var message = RegisterErrors.show(e);
+      _showSnackBar(ctx, message);
+      return null;
+    }
   }
 
   Future _submitAuthFormLogin(
@@ -35,14 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
           await _auth.loginWithEmailAndPassword(email, password);
       return authResult;
     } catch (e) {
-      var message = "An error occured, please check your credendials";
-      if (e.message != null) message = e.message;
-      Scaffold.of(ctx).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: Theme.of(ctx).errorColor,
-        ),
-      );
+      //print(e.code);
+      var message = LoginErrors.show(e.code);
+      _showSnackBar(ctx, message);
       return null;
     }
   }
@@ -55,6 +62,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Future _facebookSignIn() async {
     dynamic authResult = await _auth.faceBookSignIn();
     return authResult;
+  }
+
+  void _showSnackBar(BuildContext ctx, String message) {
+    Scaffold.of(ctx).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Theme.of(ctx).errorColor,
+        duration: Duration(milliseconds: 600),
+      ),
+    );
   }
 
   @override

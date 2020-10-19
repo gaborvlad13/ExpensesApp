@@ -8,7 +8,8 @@ import './enums.dart';
 class AccountForm extends StatefulWidget {
   final Function(String email, String password, BuildContext ctx)
       _submitFormLogin;
-  final Function(String email, String password) _submitFormRegister;
+  final Function(String email, String password, BuildContext ctx)
+      _submitFormRegister;
   final _authForm;
 
   AccountForm(
@@ -49,37 +50,43 @@ class _AccountFormState extends State<AccountForm>
   }
 
   String _validateEmail(String value) {
-    //  value = value.trim();
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
+    if (!regex.hasMatch(value.trim()))
       return 'Enter valid Email';
     else
       return null;
   }
 
   Future _trySubmitLogin(BuildContext ctx) async {
-    _email.trim();
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState.save();
-      dynamic result = await widget._submitFormLogin(_email, _password, ctx);
+      dynamic result =
+          await widget._submitFormLogin(_email.trim(), _password, ctx);
       return result;
     }
   }
 
-  Future _trySubmitRegister() async {
-    _email.trim();
+  Future _trySubmitRegister(BuildContext ctx) async {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
-    if (isValid && _password == _passwordConfirmation) {
-      print("intra aiciea");
+    if (isValid) {
       _formKey.currentState.save();
-      dynamic result =
-          await widget._submitFormRegister(_email.trim(), _password);
-      return result;
+      if (_password == _passwordConfirmation) {
+        dynamic result =
+            await widget._submitFormRegister(_email.trim(), _password, ctx);
+        return result;
+      } else
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Passwords do not match"),
+            backgroundColor: Theme.of(context).errorColor,
+            duration: Duration(milliseconds: 600),
+          ),
+        );
     }
   }
 
@@ -127,9 +134,7 @@ class _AccountFormState extends State<AccountForm>
               if (widget._authForm == AuthForm.Login)
                 result = await _trySubmitLogin(context);
               else
-                result = await _trySubmitRegister();
-              print(widget._authForm);
-              print(result);
+                result = await _trySubmitRegister(context);
               if (result != null)
                 Navigator.pushReplacementNamed(context, Wrapper.routeName);
             },
