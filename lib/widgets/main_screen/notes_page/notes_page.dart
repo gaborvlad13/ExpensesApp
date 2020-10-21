@@ -10,23 +10,21 @@ class NotesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Note> notes = Provider.of<List<Note>>(context);
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          AppBarWidgetNotes(() {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddNoteScreen(
-                  Note(id: ""),
-                ),
+    return CustomScrollView(
+      physics: BouncingScrollPhysics(),
+      slivers: [
+        AppBarWidgetNotes(() {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddNoteScreen(
+                Note(id: ""),
               ),
-            );
-          }),
-          NotesManager(notes),
-        ],
-      ),
+            ),
+          );
+        }),
+        NotesManager(notes),
+      ],
     );
   }
 }

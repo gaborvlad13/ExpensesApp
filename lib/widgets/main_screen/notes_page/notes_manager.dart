@@ -12,25 +12,29 @@ class NotesManager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (_list == null || _list.length == 0) {
-      return Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: ScreenUtil().setHeight(30),
-          horizontal: ScreenUtil().setWidth(15),
-        ),
-        child: Text(
-          "Start adding some notes.",
-          style: TextStyle(
-            fontSize: ScreenUtil().setSp(32),
-            color: Colors.grey[300],
+      return SliverToBoxAdapter(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: ScreenUtil().setHeight(30),
+            horizontal: ScreenUtil().setWidth(15),
+          ),
+          child: Text(
+            "Start adding some notes.",
+            style: TextStyle(
+              fontSize: ScreenUtil().setSp(32),
+              color: Colors.grey[300],
+            ),
           ),
         ),
       );
     } else if (_list[0].id == "initial") {
-      return SizedBox(
-        height: ScreenUtil.screenHeight,
-        width: ScreenUtil.screenWidth,
-        child: Center(
-          child: CircularProgressIndicator(),
+      return SliverToBoxAdapter(
+        child: SizedBox(
+          height: ScreenUtil.screenHeight,
+          width: ScreenUtil.screenWidth,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
       );
     } else {

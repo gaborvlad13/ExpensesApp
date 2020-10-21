@@ -89,9 +89,12 @@ class GridItem extends StatelessWidget {
     );
   }
 
-  Text _buildTitle() {
+  Widget _buildTitle() {
     return Text(
       "$_title",
+      maxLines: 2,
+      textAlign: TextAlign.center,
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
         color: kGridTitleColor,
         fontSize: ScreenUtil().setSp(20),

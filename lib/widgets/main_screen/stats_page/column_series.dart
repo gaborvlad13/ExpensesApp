@@ -19,6 +19,9 @@ class ColumnSeriesWidget extends StatelessWidget {
             enable: true,
             header: 'Total',
             canShowMarker: true,
+            textStyle: TextStyle(
+              fontSize: ScreenUtil().setSp(12),
+            ),
           ),
           series: <ChartSeries>[
             ColumnSeries<ExpenseDTO, String>(
@@ -33,7 +36,14 @@ class ColumnSeriesWidget extends StatelessWidget {
             )
           ],
           primaryXAxis: CategoryAxis(
-              labelIntersectAction: AxisLabelIntersectAction.multipleRows),
+            labelIntersectAction: AxisLabelIntersectAction.multipleRows,
+            labelStyle: TextStyle(
+              fontSize: ScreenUtil().setSp(12),
+            ),
+          ),
+          primaryYAxis: NumericAxis(
+            labelStyle: TextStyle(fontSize: ScreenUtil().setSp(12)),
+          ),
         ),
       ),
     );

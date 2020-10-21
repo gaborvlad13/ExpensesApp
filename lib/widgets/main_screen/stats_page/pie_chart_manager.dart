@@ -27,7 +27,6 @@ class _PieChartManagerState extends State<PieChartManager> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget._expensesDTO.length);
     ExpenseDTO expenseDTO;
     int index = _categoryIndex(_category);
     if (index != -1)

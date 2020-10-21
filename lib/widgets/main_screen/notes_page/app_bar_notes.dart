@@ -7,12 +7,21 @@ class AppBarWidgetNotes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return SliverAppBar(
+      toolbarHeight: ScreenUtil().setHeight(45),
       title: _buildTitle(),
       elevation: 1,
+      pinned: true,
+      forceElevated: true,
       actions: [
         IconButton(
-          icon: Icon(Icons.add),
+          padding: EdgeInsets.only(
+            right: ScreenUtil().setWidth(5),
+          ),
+          icon: Icon(
+            Icons.add,
+            size: ScreenUtil().setSp(20),
+          ),
           onPressed: _onPressed,
           color: Colors.black,
         ),

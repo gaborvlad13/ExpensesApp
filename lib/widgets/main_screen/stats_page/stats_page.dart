@@ -32,12 +32,21 @@ class _StatsPageState extends State<StatsPage> {
 
   _changeFilter(FilterType value) async {
     if (value == FilterType.DatePick) {
-      List<DateTime> expense = await _getDates();
-      setState(() {
-        _value = value;
-        _firstDate = expense.elementAt(0);
-        _secondDate = expense.elementAt(1);
-      });
+      List<DateTime> dates = await _getDates();
+      if (dates != null && dates.length == 2) {
+        setState(() {
+          _value = value;
+          _firstDate = dates.elementAt(0);
+          _secondDate = dates.elementAt(1);
+        });
+      } else
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text("You have to pick two dates"),
+            duration: Duration(milliseconds: 600),
+            backgroundColor: Theme.of(context).errorColor,
+          ),
+        );
     } else
       setState(() {
         _value = value;
@@ -69,15 +78,11 @@ class _StatsPageState extends State<StatsPage> {
       _secondDate = DateTime.now();
       _firstDate = _daysBackInTime(_secondDate, 30);
     }
-    print(_firstDate);
-    print(_secondDate);
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          AppBarWidget(_changeFilter),
-          StatsManager(_expenses, _firstDate, _secondDate),
-        ],
-      ),
+    return CustomScrollView(
+      slivers: [
+        AppBarWidget(_changeFilter),
+        StatsManager(_expenses, _firstDate, _secondDate),
+      ],
     );
   }
 }

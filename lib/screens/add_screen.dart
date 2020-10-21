@@ -63,8 +63,8 @@ class _AddScreenState extends State<AddScreen> {
     _interstitialAd.load();
   }
 
-  void _showAd() {
-    _interstitialAd.show(
+  Future<void> _showAd() async {
+    await _interstitialAd.show(
       anchorType: AnchorType.bottom,
       anchorOffset: 0.0,
       horizontalCenterOffset: 0.0,
@@ -79,7 +79,6 @@ class _AddScreenState extends State<AddScreen> {
     BuildContext ctx,
   ) async {
     try {
-      print("intra aicea");
       Expense expense = Expense(
         category: _categoryKey,
         date: date,
@@ -162,7 +161,7 @@ class _AddScreenState extends State<AddScreen> {
             if (result != null) {
               Random random = new Random();
               int randomNumber = random.nextInt(100);
-              if (randomNumber < 40) _showAd();
+              if (randomNumber < 40) await _showAd();
               Navigator.of(context).pop();
             }
           },
@@ -178,10 +177,11 @@ class _AddScreenState extends State<AddScreen> {
 
   AppBar buildAppBar() {
     return AppBar(
+      toolbarHeight: ScreenUtil().setSp(45),
       title: Text(
         "Add or modify expense",
         style: TextStyle(
-          fontSize: ScreenUtil().setSp(15),
+          fontSize: ScreenUtil().setSp(18),
         ),
       ),
       centerTitle: true,

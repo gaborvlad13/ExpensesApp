@@ -8,15 +8,16 @@ class AppBarWidget extends StatelessWidget {
   AppBarWidget(this._changeFilter);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: ScreenUtil().setHeight(50),
-      child: AppBar(
-        title: _buildTitleWidget(),
-        elevation: 1,
-        actions: [
-          _buildPopupMenu(),
-        ],
-      ),
+    return SliverAppBar(
+      //collapsedHeight: ScreenUtil().setHeight(35),
+      toolbarHeight: ScreenUtil().setHeight(45),
+      pinned: true,
+      forceElevated: true,
+      title: _buildTitleWidget(),
+      elevation: 1,
+      actions: [
+        _buildPopupMenu(),
+      ],
     );
   }
 
@@ -32,6 +33,13 @@ class AppBarWidget extends StatelessWidget {
 
   Widget _buildPopupMenu() {
     return PopupMenuButton<FilterType>(
+        padding: EdgeInsets.only(
+          right: ScreenUtil().setWidth(5),
+        ),
+        icon: Icon(
+          Icons.more_vert,
+          size: ScreenUtil().setSp(20),
+        ),
         itemBuilder: (BuildContext context) => <PopupMenuItem<FilterType>>[
               PopupMenuItem<FilterType>(
                 value: FilterType.AllTime,

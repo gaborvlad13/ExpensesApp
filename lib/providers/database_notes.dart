@@ -17,31 +17,28 @@ class DatabaseNotes {
     return true;
   }
 
-  /*Future deleteExpense(String uid, String expenseId) async {
+  Future deleteNote(String uid, String noteId) async {
     var result = await _firestore
         .collection("userData")
         .doc(uid)
-        .collection("expenses")
-        .doc(expenseId)
+        .collection("notes")
+        .doc(noteId)
         .delete();
     return result;
   }
 
-  Future updateExpense(String uid, String id, Expense expense) async {
+  Future updateNote(String uid, String id, Note note) async {
     await _firestore
         .collection("userData")
         .doc(uid)
-        .collection("expenses")
+        .collection("notes")
         .doc(id)
         .update({
-      'title': expense.title,
-      'description': expense.description,
-      'price': expense.price,
-      'date': Timestamp.fromDate(expense.date),
-      'category': expense.category,
+      'title': note.title,
+      'content': note.content,
     });
     return true;
-  }*/
+  }
 
   List<Note> _noteListFromSnapshot(QuerySnapshot snapshot) {
     try {

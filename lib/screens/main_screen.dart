@@ -10,6 +10,7 @@ import 'package:ExpensesApp/widgets/main_screen/stats_page/stats_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../widgets/main_screen/settings_page/settings_page.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/main-screen';
@@ -23,14 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   var _pages;
   @override
   void didChangeDependencies() {
-    _pages = [
-      HistoryPage(),
-      StatsPage(),
-      NotesPage(),
-      Container(
-        child: Text("test"),
-      ),
-    ];
+    _pages = [HistoryPage(), StatsPage(), NotesPage(), SettingsPage()];
 
     super.didChangeDependencies();
   }
@@ -39,7 +33,6 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context,
         width: 392.72, height: 713.45, allowFontScaling: false);
-    UserLocal _userLocal = Provider.of<UserLocal>(context);
 
     return SafeArea(
       child: Scaffold(

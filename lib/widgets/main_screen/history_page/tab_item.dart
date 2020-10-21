@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class TabItem extends StatelessWidget {
   final String text;
   final IconData icon;
-  bool isSelected;
-  Function pressed;
+  final bool isSelected;
+  final Function pressed;
   TabItem({
     this.text,
     this.icon,

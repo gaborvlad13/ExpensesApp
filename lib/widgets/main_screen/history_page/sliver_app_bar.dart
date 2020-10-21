@@ -28,8 +28,6 @@ class _SliverAppBarWidgetState extends State<SliverAppBarWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    //widget._focusNode.dispose();
     super.dispose();
   }
 
@@ -50,11 +48,20 @@ class _SliverAppBarWidgetState extends State<SliverAppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      toolbarHeight: ScreenUtil().setHeight(45),
+      forceElevated: true,
+      elevation: 1,
       pinned: true,
       actions: [
         IconButton(
+          padding: EdgeInsets.only(
+            right: ScreenUtil().setWidth(5),
+          ),
           onPressed: _setStateAppBar,
-          icon: Icon(_customSearchBarIcon),
+          icon: Icon(
+            _customSearchBarIcon,
+            size: ScreenUtil().setSp(20),
+          ),
         ),
       ],
       title: _customSearchBarTitle,

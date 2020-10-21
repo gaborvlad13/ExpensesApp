@@ -1,14 +1,8 @@
-import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/models/expense.dart';
-import 'package:ExpensesApp/models/user_local.dart';
-import 'package:ExpensesApp/providers/database.dart';
-import 'package:ExpensesApp/widgets/main_screen/history_page/enums.dart';
 import 'package:ExpensesApp/widgets/main_screen/history_page/grid_manager.dart';
-import 'package:ExpensesApp/widgets/main_screen/history_page/history_sliver_header.dart';
 import 'package:ExpensesApp/widgets/main_screen/history_page/sliver_app_bar.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:provider/provider.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -59,7 +53,7 @@ class _HistoryPageState extends State<HistoryPage> {
             _focusNode,
             _searchController,
           ),
-          HistorySliverHeader(),
+          //HistorySliverHeader(),
           GridManager(
             _expenses,
             _val,
