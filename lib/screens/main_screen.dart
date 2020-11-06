@@ -3,7 +3,7 @@ import 'package:ExpensesApp/models/user_local.dart';
 import 'package:ExpensesApp/providers/database.dart';
 import 'package:ExpensesApp/screens/add_screen.dart';
 import 'package:ExpensesApp/widgets/main_screen/history_page/history_page.dart';
-import 'package:ExpensesApp/widgets/main_screen/history_page/tab_item.dart';
+import 'package:ExpensesApp/widgets/main_screen/tab_item.dart';
 import 'package:ExpensesApp/widgets/main_screen/notes_page/notes_manager.dart';
 import 'package:ExpensesApp/widgets/main_screen/notes_page/notes_page.dart';
 import 'package:ExpensesApp/widgets/main_screen/stats_page/stats_page.dart';

@@ -7,6 +7,7 @@ class TabItem extends StatelessWidget {
   final IconData icon;
   final bool isSelected;
   final Function pressed;
+  final GlobalKey key = GlobalKey();
   TabItem({
     this.text,
     this.icon,

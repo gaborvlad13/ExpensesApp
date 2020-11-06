@@ -36,7 +36,7 @@ class ColumnSeriesWidget extends StatelessWidget {
             )
           ],
           primaryXAxis: CategoryAxis(
-            labelIntersectAction: AxisLabelIntersectAction.multipleRows,
+            labelIntersectAction: AxisLabelIntersectAction.rotate45,
             labelStyle: TextStyle(
               fontSize: ScreenUtil().setSp(12),
             ),

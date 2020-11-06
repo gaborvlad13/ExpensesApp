@@ -64,11 +64,17 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
           backgroundColor: Colors.yellow[100],
           actions: [
             IconButton(
-              icon: Icon(Icons.delete),
+              icon: Icon(
+                Icons.delete,
+                size: ScreenUtil().setSp(25),
+              ),
               onPressed: _deleteNode,
             ),
             IconButton(
-              icon: Icon(Icons.save),
+              icon: Icon(
+                Icons.save,
+                size: ScreenUtil().setSp(25),
+              ),
               onPressed: () => _saveNote(context),
             ),
           ],

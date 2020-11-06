@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class GridItem extends StatelessWidget {
+  final double _height;
+  final double _width;
   final String _id;
   final String _title;
   final String _description;
@@ -13,6 +15,8 @@ class GridItem extends StatelessWidget {
   final String _categoryName;
   final _numberFormatter = NumberFormat.compact();
   GridItem(
+    this._height,
+    this._width,
     this._id,
     this._title,
     this._description,
@@ -35,25 +39,27 @@ class GridItem extends StatelessWidget {
             child: _buildHeader(),
           ),
           SizedBox(
-            height: ScreenUtil().setHeight(10),
+            height: _height * 0.035,
           ),
           _buildTitle(),
           SizedBox(
-            height: ScreenUtil().setHeight(3),
+            height: _height * 0.035,
           ),
           _buildDescription(),
+          SizedBox(
+            height: _height * 0.03,
+          ),
           _buildBottom()
         ],
       ),
     );
   }
 
-  Padding _buildBottom() {
+  Widget _buildBottom() {
     var price = _numberFormatter.format(_price);
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: ScreenUtil().setHeight(5),
-      ),
+    return Container(
+      height: _height * 0.13,
+      //color: Colors.green,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -72,7 +78,7 @@ class GridItem extends StatelessWidget {
 
   Container _buildHeader() {
     return Container(
-      height: ScreenUtil().setHeight(90),
+      height: _height * 0.4,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -90,21 +96,26 @@ class GridItem extends StatelessWidget {
   }
 
   Widget _buildTitle() {
-    return Text(
-      "$_title",
-      maxLines: 2,
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        color: kGridTitleColor,
-        fontSize: ScreenUtil().setSp(20),
-        fontWeight: FontWeight.bold,
+    return Container(
+      alignment: Alignment.center,
+      height: _height * 0.16,
+      child: Text(
+        "$_title",
+        maxLines: 2,
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: kGridTitleColor,
+          fontSize: ScreenUtil().setSp(20),
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
 
-  Expanded _buildDescription() {
-    return Expanded(
+  Widget _buildDescription() {
+    return Container(
+      height: _height * 0.16,
       child: Text(
         "$_description",
         style: TextStyle(

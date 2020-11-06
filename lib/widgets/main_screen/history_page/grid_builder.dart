@@ -43,7 +43,7 @@ class GridBuilder extends StatelessWidget {
           ),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 4 / 5,
+            childAspectRatio: 3 / 4,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
           ),
@@ -96,14 +96,19 @@ class GridBuilder extends StatelessWidget {
           Icons.remove,
         ),
       ],
-      child: GridItem(
-        list[index].id,
-        list[index].title,
-        list[index].description,
-        list[index].price,
-        list[index].date,
-        list[index].category,
-      ),
+      child: new LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+        return GridItem(
+          constraints.minHeight,
+          constraints.maxWidth,
+          list[index].id,
+          list[index].title,
+          list[index].description,
+          list[index].price,
+          list[index].date,
+          list[index].category,
+        );
+      }),
     );
   }
 

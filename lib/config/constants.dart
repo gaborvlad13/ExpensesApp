@@ -37,6 +37,21 @@ class Categories {
       icon: FontAwesomeIcons.gamepad,
       color: kEntertainment,
     ),
+    'health & fitness': Category(
+      name: "health & fitness",
+      icon: FontAwesomeIcons.heartbeat,
+      color: kHealthFitness,
+    ),
+    'utilities': Category(
+      name: "utilities",
+      icon: FontAwesomeIcons.lightbulb,
+      color: kUtilities,
+    ),
+    'electronics': Category(
+      name: "electronics",
+      icon: FontAwesomeIcons.plug,
+      color: kElectronics,
+    ),
     'other': Category(
       name: "other",
       icon: FontAwesomeIcons.dollarSign,

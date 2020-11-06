@@ -27,6 +27,8 @@ class _PieState extends State<Pie> {
             dataSource: widget._expenses,
             dataLabelMapper: (ExpenseDTO data, _) => "${data.percent}%",
             dataLabelSettings: DataLabelSettings(
+              labelIntersectAction: LabelIntersectAction.hide,
+              alignment: ChartAlignment.center,
               textStyle: TextStyle(
                 fontSize: ScreenUtil().setSp(15),
                 color: Colors.white,

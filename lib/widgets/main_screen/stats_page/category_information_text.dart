@@ -27,7 +27,7 @@ class CategoryInformationText extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildText("Total price: $totalPrice RON"),
         _buildText("Most expensive item: $mostExpensiveTitle "),
@@ -37,15 +37,22 @@ class CategoryInformationText extends StatelessWidget {
     );
   }
 
-  Text _buildText(String text) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: ScreenUtil().setSp(
-          12,
+  Widget _buildText(String text) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      width: ScreenUtil().setWidth(220),
+      height: ScreenUtil().setHeight(23),
+      //color: Colors.red,
+      child: Text(
+        text,
+        overflow: TextOverflow.clip,
+        style: TextStyle(
+          fontSize: ScreenUtil().setSp(
+            12,
+          ),
+          fontWeight: FontWeight.bold,
+          color: kGridTitleColor,
         ),
-        fontWeight: FontWeight.bold,
-        color: kGridTitleColor,
       ),
     );
   }
