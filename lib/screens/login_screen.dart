@@ -1,5 +1,6 @@
 import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/providers/auth_service.dart';
+import 'package:ExpensesApp/providers/auth_service_social.dart';
 import 'package:ExpensesApp/screens/main_screen.dart';
 import 'package:ExpensesApp/providers/auth_service.dart';
 import 'package:ExpensesApp/widgets/login_screen/login_errors.dart';
@@ -22,19 +23,18 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final AuthService _auth = AuthService();
+  final AuthServiceSocial _authServiceSocial = AuthServiceSocial();
   var _authForm = AuthForm.Login;
 
   Future _submitAuthFormRegister(
       String email, String password, BuildContext ctx) async {
     try {
-      print("aiceeeeeea");
       dynamic authResult =
           await _auth.registerWithEmailAndPassword(email, password);
-      if (!authResult.isSuccesful()) throw authResult.getException();
       return authResult;
     } catch (e) {
-      print(e.toString());
-      var message = RegisterErrors.show(e);
+      //print(e.toString());
+      var message = RegisterErrors.show(e.code);
       _showSnackBar(ctx, message);
       return null;
     }
@@ -47,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
           await _auth.loginWithEmailAndPassword(email, password);
       return authResult;
     } catch (e) {
-      //print(e.code);
       var message = LoginErrors.show(e.code);
       _showSnackBar(ctx, message);
       return null;
@@ -55,13 +54,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future _googleSignIn() async {
-    dynamic authResult = await _auth.googleSignIn();
-    return authResult;
-  }
-
-  Future _facebookSignIn() async {
-    dynamic authResult = await _auth.faceBookSignIn();
-    return authResult;
+    try {
+      dynamic authResult = await _authServiceSocial.googleSignIn();
+      return authResult;
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void _showSnackBar(BuildContext ctx, String message) {
@@ -101,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Welcome to Thissapp",
+                      "Welcome to Paper",
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(32),
                         fontWeight: FontWeight.bold,
@@ -121,8 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Text(
                   _authForm == AuthForm.Login
-                      ? "Sign in with your email and password\nor continue with social media"
-                      : "Sign up with your email and password\nor go back and continue with social media",
+                      ? "Sign in with your email and password\nor continue with google"
+                      : "Sign up with your email and password\nor go back and continue with google",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(15),
@@ -182,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   OrDivider(),
                   SizedBox(
-                    height: ScreenUtil().setHeight(25),
+                    height: ScreenUtil().setHeight(22),
                   ),
                   SocialIcon(
                     color: kGoogleColor,

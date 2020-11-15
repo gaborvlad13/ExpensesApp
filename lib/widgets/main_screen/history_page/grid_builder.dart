@@ -1,6 +1,7 @@
 import 'package:ExpensesApp/models/expense.dart';
 import 'package:ExpensesApp/models/user_local.dart';
 import 'package:ExpensesApp/providers/database.dart';
+import 'package:ExpensesApp/providers/settings_provider.dart';
 import 'package:ExpensesApp/screens/add_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
@@ -17,6 +18,7 @@ class GridBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currencyProvider = Provider.of<SettingsProvider>(context);
     return SliverPadding(
       padding: EdgeInsets.symmetric(
         horizontal: ScreenUtil().setWidth(10),
@@ -35,6 +37,7 @@ class GridBuilder extends StatelessWidget {
                     context,
                     _list,
                     index,
+                    currencyProvider.currency,
                   ),
                 ),
               );
@@ -53,7 +56,7 @@ class GridBuilder extends StatelessWidget {
   }
 
   FocusedMenuHolder buildFocusedMenuHolder(
-      BuildContext context, List<Expense> list, int index) {
+      BuildContext context, List<Expense> list, int index, String currency) {
     final userProvider = Provider.of<UserLocal>(context);
     return FocusedMenuHolder(
       duration: Duration(milliseconds: 200),
@@ -107,6 +110,7 @@ class GridBuilder extends StatelessWidget {
           list[index].price,
           list[index].date,
           list[index].category,
+          currency,
         );
       }),
     );

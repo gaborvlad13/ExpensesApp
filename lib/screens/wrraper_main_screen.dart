@@ -3,6 +3,7 @@ import 'package:ExpensesApp/models/note.dart';
 import 'package:ExpensesApp/models/user_local.dart';
 import 'package:ExpensesApp/providers/database.dart';
 import 'package:ExpensesApp/providers/database_notes.dart';
+import 'package:ExpensesApp/providers/settings_provider.dart';
 import 'package:ExpensesApp/screens/main_screen.dart';
 import 'package:ExpensesApp/widgets/main_screen/history_page/history_page.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,9 @@ class WrraperMainScreen extends StatelessWidget {
           ],
           value: _dbNotes.getNotes(Provider.of<UserLocal>(context).uid),
         ),
+        ChangeNotifierProvider(
+          create: (_)=> SettingsProvider(),
+        )
       ],
       child: MainScreen(),
     );

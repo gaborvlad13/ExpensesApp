@@ -11,9 +11,7 @@ class AddMobService {
 
   InterstitialAd getAfterAddScreenExit() {
     return InterstitialAd(
-        adUnitId: getInterstitialAdId(),
-        listener: (MobileAdEvent event) {
-          print("InterstitialAd event is $event");
-        });
+        adUnitId: getInterstitialAdId(), listener: (MobileAdEvent event) {});
   }
 }
+

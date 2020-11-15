@@ -44,7 +44,6 @@ class DatabaseNotes {
     try {
       return snapshot.docs.map((n) => Note.fromFirestore(n)).toList();
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -62,7 +61,6 @@ class DatabaseNotes {
       final snapshots = reference.snapshots();
       return snapshots.map((_noteListFromSnapshot));
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }

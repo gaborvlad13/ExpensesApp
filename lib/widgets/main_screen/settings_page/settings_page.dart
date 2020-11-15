@@ -1,14 +1,33 @@
 import 'package:ExpensesApp/config/palette.dart';
-import 'package:currency_pickers/country.dart';
-import 'package:currency_pickers/currency_picker_dropdown.dart';
-import 'package:currency_pickers/utils/utils.dart';
+import 'package:ExpensesApp/providers/auth_service.dart';
+import 'package:ExpensesApp/providers/settings_provider.dart';
+import 'package:ExpensesApp/widgets/main_screen/settings_page/button_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:country_currency_chooser/country_currency_chooser.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatelessWidget {
+  final AuthService _authService = AuthService();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  void _loadCurrency(provider) async {
+    final SharedPreferences prefs = await _prefs;
+    final currency = prefs.getString('currency') ?? 'USD';
+    provider.setCurrency(currency);
+  }
+
+  void _saveCurrency(currency, provider) async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.setString('currency', currency);
+    provider.setCurrency(currency);
+  }
+
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SettingsProvider>(context);
+    _loadCurrency(provider);
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -19,70 +38,23 @@ class SettingsPage extends StatelessWidget {
         padding: const EdgeInsets.only(top: 10),
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(50),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Icons.exit_to_app),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Logout",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        "Exit from app",
-                        style: TextStyle(fontSize: 12),
-                      )
-                    ],
-                  )
-                ],
-              ),
+            ButtonSettings(
+              _authService.signOut,
+              Icons.exit_to_app,
+              "Logout",
+              "Exit to Welcome Screen",
+              null,
             ),
             Divider(
               thickness: 1.2,
             ),
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(50),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Icons.exit_to_app),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Logout",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        "Exit from app",
-                        style: TextStyle(fontSize: 12),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Divider(
-              thickness: 1.2,
-            ),
-            GestureDetector(
-              onTap: () => showDialog(
+            ButtonSettings(
+              () => showDialog(
                 context: context,
                 child: CurrencyChooserDialog(
+                  selectedCurrency: (flag, currencyCode) {
+                    _saveCurrency(currencyCode, provider);
+                  },
                   animationDisabled: false,
                   dialogAnimationDuration: Duration(microseconds: 1),
                   borderColor: kPrimaryColor,
@@ -93,12 +65,14 @@ class SettingsPage extends StatelessWidget {
                   showPullToStartFloatingButton: false,
                 ),
               ),
-              child: Container(
-                color: Colors.blue,
-                height: 40,
-                width: 40,
-              ),
-            )
+              Icons.attach_money,
+              "Select currency",
+              "Select currency for the entire app",
+              provider.currency,
+            ),
+            Divider(
+              thickness: 1.2,
+            ),
           ],
         ),
       ),

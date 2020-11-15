@@ -12,11 +12,6 @@ class Categories {
       icon: FontAwesomeIcons.hamburger,
       color: kFoodGradient,
     ),
-    'clothes': Category(
-      name: "clothes",
-      icon: FontAwesomeIcons.tshirt,
-      color: kClothesGradient,
-    ),
     'transportation': Category(
       name: "transportation",
       icon: FontAwesomeIcons.bus,
@@ -31,6 +26,11 @@ class Categories {
       name: "education",
       icon: FontAwesomeIcons.book,
       color: kEducation,
+    ),
+    'clothes': Category(
+      name: "clothes",
+      icon: FontAwesomeIcons.tshirt,
+      color: kClothesGradient,
     ),
     'entertainment': Category(
       name: "entertainment",

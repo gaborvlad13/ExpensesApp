@@ -1,3 +1,4 @@
+import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/models/note.dart';
 import 'package:ExpensesApp/models/user_local.dart';
 import 'package:ExpensesApp/providers/database.dart';
@@ -46,21 +47,19 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     super.dispose();
   }
 
-  void _showSnackBar(BuildContext ctx, String message) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Theme.of(ctx).errorColor,
-        duration: Duration(milliseconds: 600),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+              size: ScreenUtil().setSp(20),
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           backgroundColor: Colors.yellow[100],
           actions: [
             IconButton(
@@ -70,12 +69,17 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               ),
               onPressed: _deleteNode,
             ),
-            IconButton(
-              icon: Icon(
-                Icons.save,
-                size: ScreenUtil().setSp(25),
+            Padding(
+              padding: EdgeInsets.only(
+                right: ScreenUtil().setWidth(10),
               ),
-              onPressed: () => _saveNote(context),
+              child: IconButton(
+                icon: Icon(
+                  Icons.save,
+                  size: ScreenUtil().setSp(25),
+                ),
+                onPressed: () => _saveNote(context),
+              ),
             ),
           ],
         ),
@@ -87,10 +91,44 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     );
   }
 
+  Future<void> _showDialog() async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text(
+            "Content must not be empty",
+            style: TextStyle(
+              fontSize: ScreenUtil().setSp(20),
+            ),
+          ),
+          actions: [
+            InkWell(
+              child: Text(
+                "Got it",
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(20),
+                  color: kPrimaryColor,
+                ),
+              ),
+              onTap: () {
+                Navigator.of(ctx).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _saveNote(BuildContext ctx) async {
     String title = _titleController.text;
     String content = _contentController.text;
-    if (content.isEmpty) _showSnackBar(ctx, "Content must not be empty");
+    if (content.isEmpty) {
+      await _showDialog();
+      return;
+    }
     final userProvider = Provider.of<UserLocal>(context, listen: false);
     if (_isNewNote)
       _db.addNote(userProvider.uid, Note(title: title, content: content));

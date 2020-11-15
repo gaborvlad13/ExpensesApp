@@ -1,4 +1,3 @@
-import 'package:ExpensesApp/screens/main_screen.dart';
 import 'package:ExpensesApp/screens/wrapper.dart';
 import 'login_button.dart';
 import 'package:flutter/material.dart';
@@ -40,11 +39,8 @@ class _AccountFormState extends State<AccountForm>
   }
 
   String _validatePassword(String value) {
-    Pattern pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$';
-    RegExp regex = new RegExp(pattern);
-    if (value.length < 8) return "Password must contain at least 8 characters";
-    if (!regex.hasMatch(value))
-      return 'Password must contain one uppercase letter,\none lowercase letter and a number';
+    if (value.length < 8)
+      return "Password must contain at least 8 characters";
     else
       return null;
   }
@@ -135,6 +131,7 @@ class _AccountFormState extends State<AccountForm>
                 result = await _trySubmitLogin(context);
               else
                 result = await _trySubmitRegister(context);
+              print(result);
               if (result != null)
                 Navigator.pushReplacementNamed(context, Wrapper.routeName);
             },
@@ -164,7 +161,7 @@ class _AccountFormState extends State<AccountForm>
       },
       decoration: InputDecoration(
         errorStyle: TextStyle(
-          fontSize: ScreenUtil().setSp(15),
+          fontSize: ScreenUtil().setSp(12),
         ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),
@@ -208,7 +205,7 @@ class _AccountFormState extends State<AccountForm>
       onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
       decoration: InputDecoration(
         errorStyle: TextStyle(
-          fontSize: ScreenUtil().setSp(15),
+          fontSize: ScreenUtil().setSp(12),
         ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),
@@ -254,7 +251,7 @@ class _AccountFormState extends State<AccountForm>
           FocusScope.of(context).requestFocus(_focusPassword),
       decoration: InputDecoration(
         errorStyle: TextStyle(
-          fontSize: ScreenUtil().setSp(15),
+          fontSize: ScreenUtil().setSp(12),
         ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: ScreenUtil().setWidth(42),

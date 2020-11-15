@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:ExpensesApp/config/constants.dart';
 import 'package:ExpensesApp/models/expense_dto.dart';
 import 'package:ExpensesApp/widgets/main_screen/stats_page/category_presentation.dart';
+import 'package:ExpensesApp/widgets/main_screen/stats_page/percentage_column.dart';
 import 'package:ExpensesApp/widgets/main_screen/stats_page/pie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
@@ -41,7 +42,14 @@ class _PieChartManagerState extends State<PieChartManager> {
             width: double.infinity,
             height: ScreenUtil().setHeight(290),
             child: widget._expensesDTO.length > 0
-                ? Pie(widget._expensesDTO)
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    //crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      PercentageColumn(widget._expensesDTO),
+                      Pie(widget._expensesDTO),
+                    ],
+                  )
                 : Center(
                     child: Text(
                       "No data recorded",

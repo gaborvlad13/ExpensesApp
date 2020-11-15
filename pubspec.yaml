@@ -18,26 +18,23 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  device_preview: ^0.4.8
   flutter_screenutil: ^2.3.1
   provider: ^4.3.2+2
-  cloud_firestore: ^0.14.0+2
-  firebase_core : ^0.5.0
+  cloud_firestore: ^0.14.3
+  firebase_core: ^0.5.2
   font_awesome_flutter: ^8.8.1
-  firebase_auth: ^0.18.0+1
+  firebase_auth: ^0.18.3
   google_fonts: ^1.1.0
-  google_sign_in: ^4.5.3
-  flutter_facebook_login: ^3.0.0
+  google_sign_in: ^4.5.6
   focused_menu: ^1.0.1
-  flutter_staggered_animations: "^0.1.2"
-  syncfusion_flutter_charts: ^18.3.40
+  flutter_staggered_animations: '^0.1.2'
+  syncfusion_flutter_charts: ^18.3.48+1
   date_range_picker: ^1.0.5
-  firebase_admob: ^0.10.0+2
   flutter_staggered_grid_view: ^0.3.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -46,6 +43,8 @@ dependencies:
   waterfall_flow: ^2.0.3
   currency_pickers: ^1.0.6
   country_currency_chooser: ^0.1.4
+  firebase_admob: ^0.10.2
+  shared_preferences: ^0.5.12+4
 
 dev_dependencies:
   flutter_test:
@@ -56,7 +55,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -64,13 +62,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/image1.jpg
-    - assets/images/first_presentation.jpg
+    - assets/images/paper.png
     - assets/images/stats.png
-    - assets/images/stats2.png
-    - assets/images/category.png
-    - assets/images/moneys.png
-    - assets/images/diagram.png
+    - assets/images/expense.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

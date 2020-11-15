@@ -37,7 +37,11 @@ class _StatsPageState extends State<StatsPage> {
         setState(() {
           _value = value;
           _firstDate = dates.elementAt(0);
-          _secondDate = dates.elementAt(1);
+          _secondDate = dates
+              .elementAt(1)
+              .add(Duration(days: 1))
+              .subtract(Duration(microseconds: 1));
+          print(_secondDate);
         });
       } else
         Scaffold.of(context).showSnackBar(

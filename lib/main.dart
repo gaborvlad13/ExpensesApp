@@ -1,7 +1,7 @@
 import 'package:ExpensesApp/screens/main_screen.dart';
 import 'package:ExpensesApp/providers/auth_service.dart';
 import 'package:ExpensesApp/screens/wrapper.dart';
-import 'package:device_preview/device_preview.dart';
+//import 'package:device_preview/device_preview.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -18,32 +18,15 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   final _sliderController = SliderController();
   final _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
-  Timer timer;
   @override
   void dispose() {
     super.dispose();
     _pageController.dispose();
-    timer.cancel();
   }
 
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(
-      Duration(seconds: 5),
-      (Timer timer) {
-        if (_currentPage < 2) {
-          _currentPage++;
-        } else {
-          _currentPage = 0;
-        }
-        _pageController.animateToPage(
-          _currentPage,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeIn,
-        );
-      },
-    );
   }
 
   _onPageChanged(int index) {

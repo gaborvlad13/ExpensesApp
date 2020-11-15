@@ -43,19 +43,39 @@ class AppBarWidget extends StatelessWidget {
         itemBuilder: (BuildContext context) => <PopupMenuItem<FilterType>>[
               PopupMenuItem<FilterType>(
                 value: FilterType.AllTime,
-                child: Text('All time'),
+                child: Text(
+                  'All time',
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(15),
+                  ),
+                ),
               ),
               PopupMenuItem<FilterType>(
                 value: FilterType.Last7Days,
-                child: Text('Last 7 days'),
+                child: Text(
+                  'Last 7 days',
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(15),
+                  ),
+                ),
               ),
               PopupMenuItem<FilterType>(
                 value: FilterType.Last30Days,
-                child: Text('Last 30 days'),
+                child: Text(
+                  'Last 30 days',
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(15),
+                  ),
+                ),
               ),
               PopupMenuItem<FilterType>(
                 value: FilterType.DatePick,
-                child: Text('Pick two dates'),
+                child: Text(
+                  'Pick two dates',
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(15),
+                  ),
+                ),
               ),
             ],
         onSelected: (FilterType value) async {

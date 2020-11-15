@@ -50,7 +50,6 @@ class Database {
     try {
       return snapshot.docs.map((e) => Expense.fromFirestore(e)).toList();
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -68,7 +67,6 @@ class Database {
       final snapshots = reference.snapshots();
       return snapshots.map((_expenseListFromSnapshot));
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }

@@ -57,9 +57,7 @@ class _AddScreenState extends State<AddScreen> {
   void _initializeAd() {
     _interstitialAd = InterstitialAd(
         adUnitId: _addMobService.getInterstitialAdId(),
-        listener: (MobileAdEvent event) {
-          print("InterstitialAd event is $event");
-        });
+        listener: (MobileAdEvent event) {});
     _interstitialAd.load();
   }
 
@@ -101,7 +99,6 @@ class _AddScreenState extends State<AddScreen> {
         );
       return true;
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -177,6 +174,14 @@ class _AddScreenState extends State<AddScreen> {
 
   AppBar buildAppBar() {
     return AppBar(
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          color: Color(0xFF8B8B8B),
+          size: ScreenUtil().setSp(20),
+        ),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
       toolbarHeight: ScreenUtil().setSp(45),
       title: Text(
         "Add or modify expense",

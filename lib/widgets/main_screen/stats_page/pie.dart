@@ -25,18 +25,6 @@ class _PieState extends State<Pie> {
             pointColorMapper: (ExpenseDTO expense, _) =>
                 Categories.categories[expense.name].color,
             dataSource: widget._expenses,
-            dataLabelMapper: (ExpenseDTO data, _) => "${data.percent}%",
-            dataLabelSettings: DataLabelSettings(
-              labelIntersectAction: LabelIntersectAction.hide,
-              alignment: ChartAlignment.center,
-              textStyle: TextStyle(
-                fontSize: ScreenUtil().setSp(15),
-                color: Colors.white,
-              ),
-              isVisible: true,
-              labelPosition: ChartDataLabelPosition.outside,
-              useSeriesColor: true,
-            ),
             xValueMapper: (ExpenseDTO data, _) => data.name,
             yValueMapper: (ExpenseDTO data, _) => data.total,
             explode: false,

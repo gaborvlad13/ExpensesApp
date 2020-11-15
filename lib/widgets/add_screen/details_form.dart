@@ -104,7 +104,6 @@ class _DetailsFormState extends State<DetailsForm> {
 
   @override
   Widget build(BuildContext context) {
-    print("build details");
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: ScreenUtil().setWidth(20),
@@ -210,19 +209,19 @@ class _DetailsFormState extends State<DetailsForm> {
 
   TextFormField _buildPriceFormField() {
     return TextFormField(
-        initialValue: _price != null ? removeDecimalZeroFormat(_price) : null,
-        maxLength: 10,
-        onSaved: (newValue) => _price = double.parse(newValue),
-        style: TextStyle(
-          fontSize: ScreenUtil().setSp(18),
-        ),
-        focusNode: _focusPrice,
-        onFieldSubmitted: (_) =>
-            FocusScope.of(context).requestFocus(_focusDate),
-        textInputAction: TextInputAction.next,
-        keyboardType: TextInputType.number,
-        decoration: _textFieldDecoration("Price", "Enter price (max 10 chars)"),
-        validator: _validatePrice);
+      initialValue: _price != null ? removeDecimalZeroFormat(_price) : null,
+      maxLength: 7,
+      onSaved: (newValue) => _price = double.parse(newValue),
+      style: TextStyle(
+        fontSize: ScreenUtil().setSp(18),
+      ),
+      focusNode: _focusPrice,
+      onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_focusDate),
+      textInputAction: TextInputAction.next,
+      keyboardType: TextInputType.number,
+      decoration: _textFieldDecoration("Price", "Enter price (max 7 chars)"),
+      validator: _validatePrice,
+    );
   }
 
   InputDecoration _textFieldDecoration(String label, String hint) {
