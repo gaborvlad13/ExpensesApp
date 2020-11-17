@@ -1,7 +1,7 @@
 import 'package:ExpensesApp/models/expense.dart';
 import 'package:ExpensesApp/models/user_local.dart';
 import 'package:ExpensesApp/providers/database.dart';
-import 'package:ExpensesApp/providers/settings_provider.dart';
+import 'package:ExpensesApp/providers/shared_preferences.dart';
 import 'package:ExpensesApp/screens/add_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
@@ -9,6 +9,7 @@ import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+
 import 'grid_item.dart';
 
 class GridBuilder extends StatelessWidget {
@@ -18,7 +19,6 @@ class GridBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var currencyProvider = Provider.of<SettingsProvider>(context);
     return SliverPadding(
       padding: EdgeInsets.symmetric(
         horizontal: ScreenUtil().setWidth(10),
@@ -37,7 +37,7 @@ class GridBuilder extends StatelessWidget {
                     context,
                     _list,
                     index,
-                    currencyProvider.currency,
+                    sharedPrefs.currency,
                   ),
                 ),
               );

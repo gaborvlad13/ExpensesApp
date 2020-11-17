@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Paper</string>
-
+  <color name="primary">#198D8D</color>
 </resources>

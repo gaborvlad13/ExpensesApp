@@ -7,27 +7,20 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:country_currency_chooser/country_currency_chooser.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ExpensesApp/providers/shared_preferences.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   final AuthService _authService = AuthService();
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
-  void _loadCurrency(provider) async {
-    final SharedPreferences prefs = await _prefs;
-    final currency = prefs.getString('currency') ?? 'USD';
-    provider.setCurrency(currency);
-  }
-
-  void _saveCurrency(currency, provider) async {
-    final SharedPreferences prefs = await _prefs;
-    prefs.setString('currency', currency);
-    provider.setCurrency(currency);
-  }
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<SettingsProvider>(context);
-    _loadCurrency(provider);
+    //var provider = Provider.of<SettingsProvider>(context);
+    //_loadCurrency(provider);
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -53,7 +46,9 @@ class SettingsPage extends StatelessWidget {
                 context: context,
                 child: CurrencyChooserDialog(
                   selectedCurrency: (flag, currencyCode) {
-                    _saveCurrency(currencyCode, provider);
+                    setState(() {
+                      sharedPrefs.currency = currencyCode;
+                    });
                   },
                   animationDisabled: false,
                   dialogAnimationDuration: Duration(microseconds: 1),
@@ -68,7 +63,7 @@ class SettingsPage extends StatelessWidget {
               Icons.attach_money,
               "Select currency",
               "Select currency for the entire app",
-              provider.currency,
+              sharedPrefs.currency,
             ),
             Divider(
               thickness: 1.2,

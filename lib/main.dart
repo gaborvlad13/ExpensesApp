@@ -1,3 +1,4 @@
+import 'package:ExpensesApp/providers/shared_preferences.dart';
 import 'package:ExpensesApp/screens/main_screen.dart';
 import 'package:ExpensesApp/providers/auth_service.dart';
 import 'package:ExpensesApp/screens/wrapper.dart';
@@ -14,6 +15,7 @@ import './providers/admob_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await sharedPrefs.init();
   FirebaseAdMob.instance.initialize(
     appId: AddMobService().getAdMobAppId(),
   );
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         theme: theme(),
-        title: "Expenses App",
+        title: "Paper",
         debugShowCheckedModeBanner: false,
         home: Wrapper(),
         routes: {

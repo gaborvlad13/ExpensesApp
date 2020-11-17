@@ -3,6 +3,7 @@ import 'package:ExpensesApp/providers/auth_service.dart';
 import 'package:ExpensesApp/providers/auth_service_social.dart';
 import 'package:ExpensesApp/screens/main_screen.dart';
 import 'package:ExpensesApp/providers/auth_service.dart';
+import 'package:ExpensesApp/screens/wrapper.dart';
 import 'package:ExpensesApp/widgets/login_screen/login_errors.dart';
 import 'package:ExpensesApp/widgets/login_screen/register_errors.dart';
 import 'package:flutter/material.dart';
@@ -188,7 +189,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     press: () async {
                       dynamic result = await _googleSignIn();
                       if (result != null)
-                        Navigator.pushNamed(context, MainScreen.routeName);
+                        Navigator.pushReplacementNamed(
+                            context, Wrapper.routeName);
                     },
                   ),
                 ],

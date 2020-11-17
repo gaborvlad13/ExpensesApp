@@ -8,19 +8,13 @@ class AuthServiceSocial with ChangeNotifier {
 
   // google sign in
   Future googleSignIn() async {
-    try {
-      GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      AuthCredential credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-        accessToken: googleAuth.accessToken,
-      );
-      var result = await _auth.signInWithCredential(credential);
-      return result.user;
-    } catch (e) {
-
-      return null;
-    }
+    GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    AuthCredential credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+      accessToken: googleAuth.accessToken,
+    );
+    var result = await _auth.signInWithCredential(credential);
+    return result.user;
   }
-
 }
