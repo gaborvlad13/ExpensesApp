@@ -1,14 +1,10 @@
-import 'dart:math';
-
-import 'package:ExpensesApp/config/constants.dart';
 import 'package:ExpensesApp/models/expense_dto.dart';
+import 'package:ExpensesApp/widgets/main_screen/stats_page/categories_card.dart';
 import 'package:ExpensesApp/widgets/main_screen/stats_page/category_presentation.dart';
 import 'package:ExpensesApp/widgets/main_screen/stats_page/percentage_column.dart';
 import 'package:ExpensesApp/widgets/main_screen/stats_page/pie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'indicator.dart';
-import 'package:ExpensesApp/widgets/main_screen/stats_page/categories_card.dart';
 
 class PieChartManager extends StatefulWidget {
   final List<ExpenseDTO> _expensesDTO;

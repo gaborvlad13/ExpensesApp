@@ -1,8 +1,8 @@
 import 'package:ExpensesApp/models/expense.dart';
-import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import 'package:ExpensesApp/widgets/main_screen/stats_page/app_bar.dart';
 import 'package:ExpensesApp/widgets/main_screen/stats_page/enums.dart';
 import 'package:ExpensesApp/widgets/main_screen/stats_page/stats_manager.dart';
+import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -70,7 +70,6 @@ class _StatsPageState extends State<StatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    //_expenses = Provider.of<List<Expense>>(context);
     _expenses = Provider.of<List<Expense>>(context);
     if (_value == FilterType.AllTime) {
       _firstDate = DateTime.utc(1989, 11, 9);

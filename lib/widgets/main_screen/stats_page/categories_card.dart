@@ -58,7 +58,7 @@ class CategoriesCard extends StatelessWidget {
                   size: ScreenUtil().setSp(40),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: ScreenUtil().setHeight(10),
                 ),
                 Text(
                   capitalLetter(key),

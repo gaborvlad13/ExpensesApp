@@ -23,7 +23,7 @@ class AppBarWidget extends StatelessWidget {
 
   Text _buildTitleWidget() {
     return Text(
-      "See your stats",
+      "Check your stats",
       style: TextStyle(
         fontSize: ScreenUtil().setSp(18),
         color: Colors.black,

@@ -5,10 +5,10 @@ import 'package:ExpensesApp/providers/shared_preferences.dart';
 import 'package:ExpensesApp/screens/add_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'grid_item.dart';
 

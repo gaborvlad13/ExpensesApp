@@ -1,12 +1,9 @@
 import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/providers/auth_service.dart';
-import 'package:ExpensesApp/providers/settings_provider.dart';
 import 'package:ExpensesApp/widgets/main_screen/settings_page/button_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:country_currency_chooser/country_currency_chooser.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ExpensesApp/providers/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {

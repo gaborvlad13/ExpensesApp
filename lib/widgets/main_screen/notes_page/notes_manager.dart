@@ -1,10 +1,8 @@
 import 'package:ExpensesApp/models/note.dart';
-import 'package:ExpensesApp/models/user_local.dart';
-import 'package:ExpensesApp/providers/database_notes.dart';
 import 'package:ExpensesApp/widgets/main_screen/notes_page/notes_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:provider/provider.dart';
+
 
 class NotesManager extends StatelessWidget {
   final List<Note> _list;

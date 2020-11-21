@@ -1,5 +1,3 @@
-import 'package:ExpensesApp/config/palette.dart';
-import 'package:ExpensesApp/widgets/main_screen/history_page/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 

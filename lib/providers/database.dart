@@ -1,6 +1,5 @@
 import 'package:ExpensesApp/models/expense.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 class Database {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

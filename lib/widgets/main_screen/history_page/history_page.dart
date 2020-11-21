@@ -1,7 +1,6 @@
 import 'package:ExpensesApp/models/expense.dart';
 import 'package:ExpensesApp/widgets/main_screen/history_page/grid_manager.dart';
 import 'package:ExpensesApp/widgets/main_screen/history_page/sliver_app_bar.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

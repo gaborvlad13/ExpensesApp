@@ -1,6 +1,4 @@
-import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/config/theme.dart';
-import 'package:ExpensesApp/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';

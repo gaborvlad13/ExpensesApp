@@ -1,4 +1,3 @@
-import 'package:ExpensesApp/config/constants.dart';
 import 'package:ExpensesApp/models/expense.dart';
 import 'package:ExpensesApp/models/expense_dto.dart';
 import 'package:ExpensesApp/widgets/main_screen/stats_page/stats_body.dart';
@@ -15,7 +14,7 @@ class StatsManager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _statsList = new List<ExpenseDTO>();
-    double total = 0;
+
     if (_list == null || _list.length == 0) {
       return SliverToBoxAdapter(
         child: Padding(
@@ -66,19 +65,47 @@ class StatsManager extends StatelessWidget {
           }
         }
       });
+
+      var percentages = _getTruePercentages(_statsList);
+      int it = 0;
       _statsList.forEach((element) {
-        total += element.total;
-      });
-      _statsList.forEach((element) {
-        element.percent = _calculatePercent(element.total, total);
+        element.percent = percentages[it++];
       });
       return SliverToBoxAdapter(child: StatsBody(_statsList));
     }
   }
 
-  int _calculatePercent(double value, double total) {
+  List<int> _getTruePercentages(List<ExpenseDTO> statsList) {
+    var aux = new List<double>();
+    var toSort = new List<double>();
+    var toAdd = new List<int>();
+    double total = 0;
+    int roundedSum = 0;
+    int difference;
+    statsList.forEach((element) {
+      total += element.total;
+    });
+
+    statsList.forEach((element) {
+      var percent = _calculatePercent(element.total, total);
+      aux.add(percent);
+      toSort.add(percent);
+      toAdd.add(percent.floor());
+      roundedSum += percent.floor();
+    });
+    difference = 100 - roundedSum;
+    toSort.sort((a, b) => ((a + 1).floor() - a).compareTo((b + 1).floor() - b));
+    for (int i = 0; i < aux.length; i++) {
+      for (int j = 0; j < difference; j++) {
+        if (aux[i] == toSort[j]) toAdd[i] += 1;
+      }
+    }
+    return toAdd;
+  }
+
+  double _calculatePercent(double value, double total) {
     if (total == 0) return 0;
-    return ((value / total) * 100).round();
+    return ((value / total) * 100);
   }
 
   int _checkIndexElement(List<ExpenseDTO> statsList, String elementCategory) {

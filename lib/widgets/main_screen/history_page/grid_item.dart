@@ -1,11 +1,8 @@
 import 'package:ExpensesApp/config/constants.dart';
 import 'package:ExpensesApp/config/palette.dart';
-import 'package:ExpensesApp/providers/settings_provider.dart';
-import 'package:ExpensesApp/widgets/main_screen/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class GridItem extends StatelessWidget {
   final double _height;

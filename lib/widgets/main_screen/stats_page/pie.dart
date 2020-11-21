@@ -1,7 +1,6 @@
 import 'package:ExpensesApp/config/constants.dart';
 import 'package:ExpensesApp/models/expense_dto.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Pie extends StatefulWidget {

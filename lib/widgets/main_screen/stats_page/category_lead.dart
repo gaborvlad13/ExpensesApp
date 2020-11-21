@@ -23,7 +23,7 @@ class CategoryLead extends StatelessWidget {
             size: ScreenUtil().setSp(40),
           ),
           SizedBox(
-            height: 10,
+            height: ScreenUtil().setHeight(10),
           ),
           Text(
             _capitalLetter(_name),

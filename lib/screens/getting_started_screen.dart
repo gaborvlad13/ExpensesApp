@@ -1,13 +1,11 @@
-import 'dart:async';
-
 import 'package:ExpensesApp/screens/login_screen.dart';
 import 'package:ExpensesApp/widgets/default_button.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../controllers/slider_controller.dart';
-import '../widgets/getting_started_screen/slide_item.dart';
 import '../widgets/getting_started_screen/slide_dots.dart';
+import '../widgets/getting_started_screen/slide_item.dart';
 
 class GetStartedScreen extends StatefulWidget {
   @override

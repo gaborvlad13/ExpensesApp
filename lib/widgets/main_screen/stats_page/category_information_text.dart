@@ -1,11 +1,9 @@
 import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/models/expense.dart';
-import 'package:ExpensesApp/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
+import 'package:ExpensesApp/providers/shared_preferences.dart';
 class CategoryInformationText extends StatelessWidget {
   final double _totalPrice;
   final Expense _mostExpensive;
@@ -22,7 +20,6 @@ class CategoryInformationText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var currencyProvider = Provider.of<SettingsProvider>(context);
     String mostExpensiveTitle = _mostExpensive.title;
     String leastExpensiveTitle = _leastExpensive.title;
     String mostRecentTitle = _mostRecent.title;
@@ -32,7 +29,7 @@ class CategoryInformationText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildText("Total price: $totalPrice ${currencyProvider.currency}"),
+        _buildText("Total price: $totalPrice ${sharedPrefs.currency}"),
         _buildText("Most expensive item: $mostExpensiveTitle "),
         _buildText("Least expensive item: $leastExpensiveTitle"),
         _buildText("Most recent item: $mostRecentTitle "),

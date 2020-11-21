@@ -1,5 +1,3 @@
-
-
 import '../models/slider.dart';
 
 class SliderController {
@@ -8,7 +6,7 @@ class SliderController {
       imageUrl: 'assets/images/paper.png',
       description:
           'With this application you can manage your expenses simpler and easier than ever! You can create an account in which you will have the history of your expenses accompanied by statistics related to them. You can also write notes about your expenses. All this will be saved in your account, so you do not have to worry if you change your device.',
-      title: 'Welcome to Paper!',
+      title: 'Welcome to Paper.',
     ),
     Slider(
       imageUrl: 'assets/images/expense.png',

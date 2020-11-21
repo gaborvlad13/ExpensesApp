@@ -1,4 +1,3 @@
-import 'package:ExpensesApp/models/expense.dart';
 import 'package:ExpensesApp/models/note.dart';
 import 'package:ExpensesApp/screens/add_note_screen.dart';
 import 'package:ExpensesApp/widgets/main_screen/notes_page/app_bar_notes.dart';

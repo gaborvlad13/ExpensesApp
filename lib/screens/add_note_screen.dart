@@ -1,7 +1,6 @@
 import 'package:ExpensesApp/config/palette.dart';
 import 'package:ExpensesApp/models/note.dart';
 import 'package:ExpensesApp/models/user_local.dart';
-import 'package:ExpensesApp/providers/database.dart';
 import 'package:ExpensesApp/providers/database_notes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -164,9 +163,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               TextField(
-                decoration: _buildInputDecoration("Note title (max 50 chars)"),
+                decoration: _buildInputDecoration("Note title (max 30 chars)"),
                 inputFormatters: [
-                  LengthLimitingTextInputFormatter(20),
+                  LengthLimitingTextInputFormatter(30),
                 ],
                 maxLines: 1,
                 maxLengthEnforced: true,
