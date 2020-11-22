@@ -117,7 +117,7 @@ class _AddScreenState extends State<AddScreen> {
               Hero(
                 tag: _id,
                 child: CategoryHeaderImage(
-                  _categoryKey,
+      
                   Categories.categories[_categoryKey].icon,
                   Categories.categories[_categoryKey].color,
                 ),

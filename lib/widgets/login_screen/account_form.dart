@@ -105,7 +105,6 @@ class _AccountFormState extends State<AccountForm>
 
   @override
   Widget build(BuildContext context) {
-    print("build account form called");
     return Form(
       key: _formKey,
       child: Column(

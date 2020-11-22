@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 
 class GridItem extends StatelessWidget {
   final double _height;
-  final double _width;
   final String _id;
   final String _title;
   final String _description;
@@ -17,7 +16,6 @@ class GridItem extends StatelessWidget {
   final _numberFormatter = NumberFormat.compact();
   GridItem(
     this._height,
-    this._width,
     this._id,
     this._title,
     this._description,

@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoryHeaderImage extends StatelessWidget {
-  final String _title;
+
   final IconData _icon;
   final Color _color;
-  CategoryHeaderImage(this._title, this._icon, this._color);
+  CategoryHeaderImage(this._icon, this._color);
   @override
   Widget build(BuildContext context) {
     return Container(

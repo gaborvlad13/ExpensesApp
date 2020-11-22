@@ -103,7 +103,6 @@ class GridBuilder extends StatelessWidget {
           builder: (BuildContext context, BoxConstraints constraints) {
         return GridItem(
           constraints.minHeight,
-          constraints.maxWidth,
           list[index].id,
           list[index].title,
           list[index].description,
